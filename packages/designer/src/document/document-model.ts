@@ -1,5 +1,5 @@
 import { computed, makeObservable, obx, action, runWithGlobalEventOff, wrapWithEventSwitch } from '@alilc/lowcode-editor-core';
-import { NodeData, isJSExpression, isDOMText, NodeSchema, isNodeSchema, RootSchema, PageSchema } from '@alilc/lowcode-types';
+import { NodeData, isJSExpression, isDOMText, NodeSchema, isNodeSchema, RootSchema, PageSchema, ComponentsMap } from '@alilc/lowcode-types';
 import { EventEmitter } from 'events';
 import { Project } from '../project';
 import { ISimulatorHost } from '../simulator';
@@ -18,16 +18,6 @@ export type GetDataType<T, NodeType> = T extends undefined
     ? R
     : any
   : T;
-
-export interface ComponentMap {
-  componentName: string;
-  package?: string;
-  version?: string;
-  destructuring?: boolean;
-  exportName?: string;
-  subName?: string;
-  devMode?: 'lowCode' | 'proCode';
-}
 
 export class DocumentModel {
   /**
@@ -230,8 +220,10 @@ export class DocumentModel {
     if (this.hasNode(schema?.id)) {
       schema.id = null;
     }
+    /* istanbul ignore next */
     if (schema.id) {
       node = this.getNode(schema.id);
+      // TODO: 底下这几段代码似乎永远都进不去
       if (node && node.componentName === schema.componentName) {
         if (node.parent) {
           node.internalSetParent(null, false);
@@ -247,12 +239,6 @@ export class DocumentModel {
       node = new Node(this, schema, { checkId });
       // will add
       // todo: this.activeNodes?.push(node);
-    }
-
-    const origin = this._nodesMap.get(node.id);
-    if (origin && origin !== node) {
-      // almost will not go here, ensure the id is unique
-      origin.internalSetWillPurge();
     }
 
     this._nodesMap.set(node.id, node);
@@ -588,6 +574,7 @@ export class DocumentModel {
   /**
    * @deprecated
    */
+  /* istanbul ignore next */
   getAddonData(name: string) {
     const addon = this._addons.find((item) => item.name === name);
     if (addon) {
@@ -598,6 +585,7 @@ export class DocumentModel {
   /**
    * @deprecated
   */
+  /* istanbul ignore next */
   exportAddonData() {
     const addons = {};
     this._addons.forEach((addon) => {
@@ -614,6 +602,7 @@ export class DocumentModel {
   /**
    * @deprecated
    */
+  /* istanbul ignore next */
   registerAddon(name: string, exportData: any) {
     if (['id', 'params', 'layout'].indexOf(name) > -1) {
       throw new Error('addon name cannot be id, params, layout');
@@ -628,6 +617,7 @@ export class DocumentModel {
     });
   }
 
+  /* istanbul ignore next */
   acceptRootNodeVisitor(
     visitorName = 'default',
     visitorFn: (node: RootNode) => any,
@@ -647,12 +637,13 @@ export class DocumentModel {
     return visitorResult;
   }
 
+  /* istanbul ignore next */
   getRootNodeVisitor(name: string) {
     return this.rootNodeVisitorMap[name];
   }
 
   getComponentsMap(extraComps?: string[]) {
-    const componentsMap: ComponentMap[] = [];
+    const componentsMap: ComponentsMap = [];
     // 组件去重
     const exsitingMap: { [componentName: string]: boolean } = {};
     for (const node of this._nodesMap.values()) {

@@ -168,7 +168,7 @@ export interface IBaseRendererProps {
   device?: 'default' | 'mobile' | string;
 }
 
-export interface IInfo {
+export interface INodeInfo {
   schema?: NodeSchema;
   Comp: any;
   componentInfo?: any;
@@ -236,7 +236,6 @@ export type IBaseRendererInstance = IGeneralComponent<
 >
   & {
     reloadDataSource(): Promise<any>;
-    getSchemaChildren(schema: NodeSchema | undefined): NodeData | NodeData[] | undefined;
     __beforeInit(props: IBaseRendererProps): void;
     __init(props: IBaseRendererProps): void;
     __afterInit(props: IBaseRendererProps): void;
@@ -254,9 +253,9 @@ export type IBaseRendererInstance = IGeneralComponent<
     ): any;
     __getComponentProps(schema: NodeSchema | undefined, scope: any, Comp: any, componentInfo?: any): any;
     __createDom(): any;
-    __createVirtualDom(schema: any, self: any, parentInfo: IInfo, idx: string | number): any;
-    __createLoopVirtualDom(schema: any, self: any, parentInfo: IInfo, idx: number | string): any;
-    __parseProps(props: any, self: any, path: string, info: IInfo): any;
+    __createVirtualDom(schema: any, self: any, parentInfo: INodeInfo, idx: string | number): any;
+    __createLoopVirtualDom(schema: any, self: any, parentInfo: INodeInfo, idx: number | string): any;
+    __parseProps(props: any, self: any, path: string, info: INodeInfo): any;
     __initDebug?(): void;
     __debug(...args: any[]): void;
     __renderContextProvider(customProps?: object, children?: any): any;
