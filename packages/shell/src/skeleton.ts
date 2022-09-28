@@ -84,6 +84,48 @@ export default class Skeleton {
   }
 
   /**
+   * 隐藏 area
+   * @param areaName
+   */
+  hideArea(name: string) {
+    const area =
+      this[skeletonSymbol][
+        name as
+          | 'rightArea'
+          | 'leftArea'
+          | 'topArea'
+          | 'leftFixedArea'
+          | 'leftFloatArea'
+          | 'mainArea'
+          | 'bottomArea'
+      ];
+    if (area) {
+      area.hide();
+    }
+  }
+
+  /**
+   * disable widget，不可点击
+   * @param name
+   */
+  showArea(name: string) {
+    const area =
+      this[skeletonSymbol][
+        name as
+          | 'rightArea'
+          | 'leftArea'
+          | 'topArea'
+          | 'leftFixedArea'
+          | 'leftFloatArea'
+          | 'mainArea'
+          | 'bottomArea'
+      ];
+    if (area) {
+      area.show();
+    }
+  }
+
+  /**
    * 监听 panel 显示事件
    * @param listener
    * @returns
