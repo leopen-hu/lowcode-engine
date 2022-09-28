@@ -170,12 +170,16 @@ export class Skeleton {
     // adjust pinned status when panel shown
     this.editor.on('skeleton.panel.show', (panelName, panel) => {
       const panelNameKey = `${panelName}-pinned-status-isFloat`;
-      const isInFloatAreaPreferenceExists = this.editor?.getPreference()?.contains(panelNameKey, 'skeleton');
+      const isInFloatAreaPreferenceExists = this.editor
+        ?.getPreference()
+        ?.contains(panelNameKey, 'skeleton');
       if (isInFloatAreaPreferenceExists) {
-        const isInFloatAreaFromPreference = this.editor?.getPreference()?.get(panelNameKey, 'skeleton');
-        const isCurrentInFloatArea = panel?.isChildOfFloatArea();
+        const isInFloatAreaFromPreference = this.editor
+          ?.getPreference()
+          ?.get(panelNameKey, 'skeleton');
+        const isCurrentInFloatArea = (panel as Panel)?.isChildOfFloatArea();
         if (isInFloatAreaFromPreference !== isCurrentInFloatArea) {
-          this.toggleFloatStatus(panel);
+          this.toggleFloatStatus(panel as Panel);
         }
       }
     });
@@ -261,6 +265,11 @@ export class Skeleton {
 
   readonly widgets: IWidget[] = [];
 
+  /**
+   * 根据 config 的类型创建对应的窗体
+   * @param config
+   * @returns
+   */
   createWidget(config: IWidgetBaseConfig | IWidget) {
     if (isWidget(config)) {
       return config;
@@ -293,7 +302,7 @@ export class Skeleton {
   }
 
   getWidget(name: string): IWidget | undefined {
-    return this.widgets.find(widget => widget.name === name);
+    return this.widgets.find((widget) => widget.name === name);
   }
 
   createPanel(config: PanelConfig) {
@@ -320,6 +329,15 @@ export class Skeleton {
     return stage?.getName?.();
   }
 
+  /**
+   *
+   * @param name container 的 name
+   * @param handle 向 container 中添加 item 时，使用此处理函数处理 item，目的是创建一个合适的窗体：Widget | Panel | PanelDock 等
+   * @param exclusive ？
+   * @param checkVisible
+   * @param defaultSetCurrent 默认 active item
+   * @returns
+   */
   createContainer(
     name: string,
     handle: (item: any) => any,
@@ -400,7 +418,7 @@ export class Skeleton {
       case 'stages':
         return this.stages.add(parsedConfig as StageConfig);
       default:
-        // do nothing
+      // do nothing
     }
   }
 }

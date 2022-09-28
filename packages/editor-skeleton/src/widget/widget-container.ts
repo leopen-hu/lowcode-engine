@@ -19,13 +19,21 @@ export default class WidgetContainer<T extends WidgetItem = any, G extends Widge
 
   private maps: { [name: string]: T } = {};
 
-  @obx.ref private _current: T & Activeable | null = null;
+  @obx.ref private _current: (T & Activeable) | null = null;
 
   get current() {
     return this._current;
   }
 
   // eslint-disable-next-line no-useless-constructor
+  /**
+   *
+   * @param name container 的 name
+   * @param handle 向 container 中添加 item 时，使用此处理函数处理 item，目的是创建一个窗体配置文件：Widget | Panel | PanelDock 等
+   * @param exclusive ？
+   * @param checkVisible
+   * @param defaultSetCurrent 默认 active item
+   */
   constructor(
     readonly name: string,
     private handle: (item: T | G) => T,
@@ -81,7 +89,7 @@ export default class WidgetContainer<T extends WidgetItem = any, G extends Widge
   }
 
   unactiveAll() {
-    Object.keys(this.maps).forEach(name => this.unactive(name));
+    Object.keys(this.maps).forEach((name) => this.unactive(name));
   }
 
   add(item: T | G): T {

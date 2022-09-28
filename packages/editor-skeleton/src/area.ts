@@ -23,9 +23,29 @@ export default class Area<C extends IWidgetBaseConfig = any, T extends IWidget =
 
   readonly container: WidgetContainer<T, C>;
 
-  constructor(readonly skeleton: Skeleton, readonly name: string, handle: (item: T | C) => T, private exclusive?: boolean, defaultSetCurrent = false) {
+  /**
+   * Area
+   * @param skeleton skeleton 实例
+   * @param name container 的 name
+   * @param handle 向 container 中添加 item 时，使用此处理函数处理 item，目的是创建一个合适的窗体：Widget | Panel | PanelDock 等
+   * @param exclusive ？
+   * @param defaultSetCurrent 默认 active item
+   */
+  constructor(
+    readonly skeleton: Skeleton,
+    readonly name: string,
+    handle: (item: T | C) => T,
+    private exclusive?: boolean,
+    defaultSetCurrent = false,
+  ) {
     makeObservable(this);
-    this.container = skeleton.createContainer(name, handle, exclusive, () => this.visible, defaultSetCurrent);
+    this.container = skeleton.createContainer(
+      name,
+      handle,
+      exclusive,
+      () => this.visible,
+      defaultSetCurrent,
+    );
   }
 
   isEmpty(): boolean {
