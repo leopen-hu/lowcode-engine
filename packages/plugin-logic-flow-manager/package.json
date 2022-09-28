@@ -1,0 +1,46 @@
+{
+  "name": "@alilc/lowcode-plugin-logic-flow-manager",
+  "version": "1.0.14",
+  "description": "alibaba lowcode editor logic flow designer plugin",
+  "files": [
+    "es",
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "stylePath": "style.js",
+  "scripts": {
+    "build": "build-scripts build --skip-demo"
+  },
+  "keywords": [
+    "lowcode",
+    "editor"
+  ],
+  "author": "xiayang.xy",
+  "dependencies": {
+    "@alilc/lowcode-designer": "1.0.14",
+    "@alilc/lowcode-editor-core": "1.0.14",
+    "@alilc/lowcode-utils": "1.0.14",
+    "@ant-design/icons": "^4.7.0",
+    "@logicflow/core": "^1.1.29",
+    "@logicflow/extension": "^1.1.29",
+    "antd": "^4.23.2",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
+  },
+  "devDependencies": {
+    "@alib/build-scripts": "^0.1.3",
+    "@types/react": "^16.9.13",
+    "@types/react-dom": "^16.9.4",
+    "build-plugin-component": "^0.2.7"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "http",
+    "url": "https://github.com/alibaba/lowcode-engine/tree/main/packages/plugin-designer"
+  },
+  "gitHead": "2669f179e6f899d395ce1942d0fe04f9c5ed48a6"
+}
