@@ -16,6 +16,8 @@ import {
 
 import Outline, { OutlineBackupPane, getTreeMaster } from '@alilc/lowcode-plugin-outline-pane';
 import DesignerPlugin from '@alilc/lowcode-plugin-designer';
+import LogicFlowDesignerPlugin from '@alilc/lowcode-plugin-logic-flow-designer';
+import { LogicFlowManager } from '@alilc/lowcode-plugin-logic-flow-manager';
 import { Hotkey, Project, Skeleton, Setters, Material, Event } from '@alilc/lowcode-shell';
 import { getLogger, isPlainObject } from '@alilc/lowcode-utils';
 import './modules/live-editing';
@@ -131,6 +133,22 @@ engineConfig.set('isOpenSource', isOpenSource);
           name: 'designer',
           type: 'Widget',
           content: DesignerPlugin,
+        });
+        skeleton.add({
+          area: 'mainArea',
+          name: 'LogicFlowDesignerPlugin',
+          type: 'Widget',
+          content: LogicFlowDesignerPlugin,
+        });
+        skeleton.add({
+          area: 'leftArea',
+          name: 'LogicFlowManager',
+          type: 'Widget',
+          props: {
+            align: 'bottom',
+          },
+          content: LogicFlowManager,
+          contentProps: { skeleton },
         });
         if (!engineConfig.get('disableDefaultSettingPanel')) {
           skeleton.add({
