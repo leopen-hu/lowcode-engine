@@ -20,6 +20,7 @@
   "dependencies": {
     "@alifd/next": "^1.19.12",
     "@alilc/lowcode-designer": "1.0.14",
+    "@alilc/lowcode-plugin": "1.0.14",
     "@alilc/lowcode-editor-core": "1.0.14",
     "@alilc/lowcode-editor-skeleton": "1.0.14",
     "@alilc/lowcode-engine-ext": "^1.0.0",

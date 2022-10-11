@@ -1,4 +1,4 @@
-import { ILowCodePluginContext } from '@alilc/lowcode-designer';
+import { ILowCodePluginContext } from '@alilc/lowcode-plugin';
 import { engineConfig, globalContext } from '@alilc/lowcode-editor-core';
 import { SettingsPrimaryPane } from '@alilc/lowcode-editor-skeleton';
 import DesignerPlugin from '@alilc/lowcode-plugin-designer';

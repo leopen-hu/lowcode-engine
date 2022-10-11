@@ -1,4 +1,4 @@
-import { ILowCodePluginContext } from '@alilc/lowcode-designer';
+import { ILowCodePluginContext } from '@alilc/lowcode-plugin';
 import { engineConfig } from '@alilc/lowcode-editor-core';
 
 export const builtinSettersRegistry = (ctx: ILowCodePluginContext) => {

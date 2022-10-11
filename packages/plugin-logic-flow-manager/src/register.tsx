@@ -1,4 +1,4 @@
-import { ILowCodePluginContext } from '@alilc/lowcode-engine';
+import { ILowCodePluginContext } from '@alilc/lowcode-plugin';
 import { LogicFlowManager } from './index';
 // import { LogicManage } from './logic-manage';
 // import { EngineContextProvider } from './providers/engine-context-provider';

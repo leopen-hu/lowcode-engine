@@ -1,7 +1,8 @@
 import { createElement } from 'react';
 import { render } from 'react-dom';
 import { globalContext, Editor, engineConfig, EngineOptions } from '@alilc/lowcode-editor-core';
-import { Designer, LowCodePluginManager, PluginPreference } from '@alilc/lowcode-designer';
+import { Designer, PluginPreference } from '@alilc/lowcode-designer';
+import { LowCodePluginManager } from '@alilc/lowcode-plugin';
 import { Skeleton, Workbench } from '@alilc/lowcode-editor-skeleton';
 import { isPlainObject } from '@alilc/lowcode-utils';
 import { componentMetaParser } from './plugins/plugin-component-meta-parse';

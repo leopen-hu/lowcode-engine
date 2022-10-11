@@ -1,5 +1,5 @@
 import { globalContext } from '@alilc/lowcode-editor-core';
-import { ILowCodePluginContext } from 'designer/src/plugin';
+import { ILowCodePluginContext } from '@alilc/lowcode-plugin';
 
 export const componentMetaParser = (ctx: ILowCodePluginContext) => {
   const editor = globalContext.get('editor');
