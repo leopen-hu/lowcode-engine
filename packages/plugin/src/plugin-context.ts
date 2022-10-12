@@ -1,6 +1,5 @@
 /* eslint-disable no-multi-assign */
 import { Editor, EngineConfig, engineConfig } from '@alilc/lowcode-editor-core';
-import { Designer } from '@alilc/lowcode-designer';
 import { Skeleton as InnerSkeleton } from '@alilc/lowcode-editor-skeleton';
 import {
   Hotkey,
@@ -10,7 +9,6 @@ import {
   Material,
   Event,
   editorSymbol,
-  designerSymbol,
   skeletonSymbol,
 } from '@alilc/lowcode-shell';
 import { getLogger, Logger } from '@alilc/lowcode-utils';
@@ -24,11 +22,8 @@ import {
 } from './plugin-types';
 import { isValidPreferenceKey } from './plugin-utils';
 
-// TODO 删除对 Designer 的依赖，通过事件或者 command 的模式来实现对 designer 的操作
-
 export default class PluginContext implements ILowCodePluginContext {
   private readonly [editorSymbol]: Editor;
-  private readonly [designerSymbol]: Designer;
   private readonly [skeletonSymbol]: InnerSkeleton;
   hotkey: Hotkey;
   project: Project;
@@ -42,8 +37,9 @@ export default class PluginContext implements ILowCodePluginContext {
   preference: IPluginPreferenceMananger;
 
   constructor(plugins: ILowCodePluginManager, options: IPluginContextOptions) {
+    // TODO editor 视为 plugin 的宿主上下文，具体可使用的功能由宿主暴露的接口决定
     const editor = (this[editorSymbol] = plugins.editor);
-    const designer = (this[designerSymbol] = editor.get('designer')!);
+    const designer = editor.get('designer')!;
     const skeleton = (this[skeletonSymbol] = editor.get('skeleton')!);
 
     const { pluginName = 'anonymous' } = options;
@@ -56,7 +52,7 @@ export default class PluginContext implements ILowCodePluginContext {
     this.config = engineConfig;
     this.plugins = plugins;
     this.event = new Event(editor, { prefix: 'common' });
-    this.logger = getLogger({ level: 'warn', bizName: `designer:plugin:${pluginName}` });
+    this.logger = getLogger({ level: 'warn', bizName: `plugin:${pluginName}` });
 
     const enhancePluginContextHook = engineConfig.get('enhancePluginContextHook');
     if (enhancePluginContextHook) {

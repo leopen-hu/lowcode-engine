@@ -20,7 +20,7 @@ import { invariant } from './invariant';
 import sequencify from './sequencify';
 import semverSatisfies from 'semver/functions/satisfies';
 
-const logger = getLogger({ level: 'warn', bizName: 'designer:pluginManager' });
+const logger = getLogger({ level: 'warn', bizName: 'pluginManager' });
 
 export class LowCodePluginManager implements ILowCodePluginManager {
   private plugins: ILowCodePlugin[] = [];
