@@ -1,8 +1,7 @@
-import { CompositeObject, ComponentAction } from '@alilc/lowcode-types';
+import { CompositeObject } from '@alilc/lowcode-types';
 import Logger from 'zen-logger';
 import { Hotkey, Skeleton, Project, Event, Material } from '@alilc/lowcode-shell';
 import { EngineConfig, getSetter, getSettersMap, registerSetter } from '@alilc/lowcode-editor-core';
-import { MetadataTransducer } from '@alilc/lowcode-designer';
 
 export type PreferenceValueType = string | number | boolean;
 
@@ -79,12 +78,6 @@ interface ILowCodePluginExportsAccessor {
 }
 
 export type ILowCodePlugin = ILowCodePluginCore & ILowCodePluginExportsAccessor;
-
-export interface IDesignerCabin {
-  registerMetadataTransducer: (transducer: MetadataTransducer, level: number, id?: string) => void;
-  addBuiltinComponentAction: (action: ComponentAction) => void;
-  removeBuiltinComponentAction: (actionName: string) => void;
-}
 
 export interface IPluginPreferenceMananger {
   // eslint-disable-next-line max-len
