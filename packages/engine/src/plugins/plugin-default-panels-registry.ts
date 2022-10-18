@@ -2,8 +2,6 @@ import { ILowCodePluginContext } from '@alilc/lowcode-plugin';
 import { engineConfig, globalContext } from '@alilc/lowcode-editor-core';
 import { SettingsPrimaryPane } from '@alilc/lowcode-editor-skeleton';
 import DesignerPlugin from '@alilc/lowcode-plugin-designer';
-import LogicFlowDesignerPlugin from '@alilc/lowcode-plugin-logic-flow-designer';
-import { LogicFlowManager } from '@alilc/lowcode-plugin-logic-flow-manager';
 import Outline, { OutlineBackupPane, getTreeMaster } from '@alilc/lowcode-plugin-outline-pane';
 
 export const defaultPanelsRegistry = (ctx: ILowCodePluginContext) => {
@@ -19,22 +17,16 @@ export const defaultPanelsRegistry = (ctx: ILowCodePluginContext) => {
         type: 'Widget',
         content: DesignerPlugin,
       });
-      skeleton.add({
-        area: 'mainArea',
-        name: 'LogicFlowDesignerPlugin',
-        type: 'Widget',
-        content: LogicFlowDesignerPlugin,
-      });
-      skeleton.add({
-        area: 'leftArea',
-        name: 'LogicFlowManager',
-        type: 'Widget',
-        props: {
-          align: 'bottom',
-        },
-        content: LogicFlowManager,
-        contentProps: { skeleton },
-      });
+      // skeleton.add({
+      //   area: 'leftArea',
+      //   name: 'LogicFlowManager',
+      //   type: 'Widget',
+      //   props: {
+      //     align: 'bottom',
+      //   },
+      //   content: LogicFlowManager,
+      //   contentProps: { skeleton },
+      // });
       if (!engineConfig.get('disableDefaultSettingPanel')) {
         skeleton.add({
           area: 'rightArea',

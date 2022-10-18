@@ -19,6 +19,7 @@ import LowCodePluginContext from './plugin-context';
 import { invariant } from './invariant';
 import sequencify from './sequencify';
 import semverSatisfies from 'semver/functions/satisfies';
+import { PluginRegistry, PluginRegistryCreator } from './register-types';
 
 const logger = getLogger({ level: 'warn', bizName: 'pluginManager' });
 
@@ -117,6 +118,88 @@ export class LowCodePluginManager implements ILowCodePluginManager {
     logger.log(
       `plugin registered with pluginName: ${pluginName}, config: ${config}, meta: ${meta}`,
     );
+  }
+
+  /**
+   * 注册插件
+   */
+  async register2(pluginRegistryCreator: PluginRegistryCreator): Promise<void> {
+    const pluginRegistry: PluginRegistry = {
+      showPlugin: (pluginName: string) => {
+        console.log(pluginName, this.pluginsMap.has(pluginName));
+        if (this.pluginsMap.has(pluginName)) {
+          ctx.skeleton.showWidget(pluginName);
+        }
+      },
+      hidePlugin: (pluginName: string) => {
+        if (this.pluginsMap.has(pluginName)) {
+          ctx.skeleton.hideWidget(pluginName);
+        }
+      },
+      getData: <T = any>(pluginName: string) => {
+        const plugin = this.pluginsMap.get(pluginName);
+        return plugin?.exportData() as T;
+      },
+      onSave: <T = any>(data: T, pluginName: string) => {
+        const plugin = this.pluginsMap.get(pluginName);
+        return plugin?.importData(data);
+      },
+    };
+    let { name, location, type, component, init, destroy, autoInit, ideVersion } =
+      pluginRegistryCreator(pluginRegistry);
+
+    // check ide version match
+    if (ideVersion && !this.isEngineVersionMatched(ideVersion)) {
+      logger.error(
+        `plugin ${name} skipped, engine check failed, current engine version is ${engineConfig.get(
+          'ENGINE_VERSION',
+        )}, meta.engines.lowcodeEngine is ${ideVersion}`,
+      );
+      return;
+    }
+
+    // check plugin exist
+    if (this.pluginsMap.has(name)) {
+      logger.error(`Plugin named ${name} exist!`);
+      return;
+    }
+
+    const ctx = this._getLowCodePluginContext({ pluginName: name });
+
+    // const { preferenceDeclaration, engines } = meta as ILowCodePluginConfigMeta;
+    // ctx.setPreference(pluginName, preferenceDeclaration as ILowCodePluginPreferenceDeclaration);
+
+    // const customFilterValidOptions = engineConfig.get(
+    //   'customPluginFilterOptions',
+    //   filterValidOptions,
+    // );
+
+    const calculatePluginConfig = () => {
+      return {
+        init: () => {
+          ctx.skeleton.add({
+            name,
+            area: location,
+            type,
+            content: component,
+          });
+          init?.();
+        },
+        destroy,
+      };
+    };
+
+    const config = calculatePluginConfig();
+
+    const plugin = new LowCodePlugin(name, this, calculatePluginConfig(), {});
+
+    if (autoInit) {
+      await plugin.init();
+    }
+
+    this.plugins.push(plugin);
+    this.pluginsMap.set(name, plugin);
+    logger.log(`plugin registered with pluginName: ${name}, config: ${config}`);
   }
 
   get(pluginName: string): ILowCodePlugin | undefined {

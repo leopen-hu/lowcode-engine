@@ -1,25 +1,12 @@
-import { ILowCodePluginContext } from '@alilc/lowcode-plugin';
-import { LogicFlowManager } from './index';
-// import { LogicManage } from './logic-manage';
-// import { EngineContextProvider } from './providers/engine-context-provider';
+import { PluginRegistry } from '@alilc/lowcode-plugin';
+import { LogicFlowManager } from './component';
 
-export const LogicFlowManagerPlugin = (ctx: ILowCodePluginContext) => {
+export const logicFlowManagerPluginRegistry = (pluginRegistry: PluginRegistry) => {
+  const { showPlugin, hidePlugin } = pluginRegistry;
   return {
-    name: 'LogicFlowManagerPlugin',
-    async init() {
-      const { skeleton } = ctx;
-
-      skeleton.add({
-        area: 'leftArea',
-        name: 'variableManage',
-        type: 'Panel',
-        props: {
-          icon: 'list',
-          description: 'logic管理',
-        },
-        content: <LogicFlowManager skeleton={skeleton} />,
-      });
-    },
+    name: 'lowcode.plugins.logicFlowManager',
+    location: 'leftArea',
+    type: 'Widget',
+    component: <LogicFlowManager showPlugin={showPlugin} hidePlugin={hidePlugin} />,
   };
 };
-LogicFlowManagerPlugin.pluginName = 'LogicFlowManagerPlugin';

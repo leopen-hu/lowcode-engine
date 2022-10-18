@@ -110,9 +110,15 @@ interface ILowCodePluginManagerPluginAccessor {
   [pluginName: string]: ILowCodePlugin | any;
 }
 
+export interface PluginConfigCreator {
+  (ctx: ILowCodePluginContext, pluginOptions?: any): ILowCodePluginConfig;
+  pluginName: string;
+  meta?: ILowCodePluginConfigMeta;
+}
+
 export interface ILowCodePluginManagerCore {
   register(
-    pluginConfigCreator: (ctx: ILowCodePluginContext, pluginOptions?: any) => ILowCodePluginConfig,
+    pluginConfigCreator: PluginConfigCreator,
     pluginOptions?: any,
     options?: CompositeObject,
   ): Promise<void>;
