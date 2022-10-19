@@ -73,7 +73,7 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
     const { condition, defaultValue } = extraProps;
     let visible;
     try {
-      visible = typeof condition === 'function' ? condition(field.internalToShellPropEntry()) !== false : true;
+      visible = typeof condition === 'function' ? condition(field) !== false : true;
     } catch (error) {
       console.error('exception when condition (hidden) is excuted', error);
     }
@@ -97,7 +97,7 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
       if (setter.props) {
         setterProps = setter.props;
         if (typeof setterProps === 'function') {
-          setterProps = setterProps(field.internalToShellPropEntry());
+          setterProps = setterProps(field);
         }
       }
       if (setter.initialValue != null) {
@@ -110,7 +110,8 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
     // 根据是否支持变量配置做相应的更改
     const supportVariable = field.extraProps?.supportVariable;
     // supportVariableGlobally 只对标准组件生效，vc 需要单独配置
-    const supportVariableGlobally = engineConfig.get('supportVariableGlobally', false) && isStandardComponent(componentMeta);
+    const supportVariableGlobally =
+      engineConfig.get('supportVariableGlobally', false) && isStandardComponent(componentMeta);
     if (supportVariable || supportVariableGlobally) {
       if (setterType === 'MixedSetter') {
         // VariableSetter 不单独使用
@@ -120,10 +121,7 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
       } else {
         setterType = 'MixedSetter';
         setterProps = {
-          setters: [
-            setter,
-            'VariableSetter',
-          ],
+          setters: [setter, 'VariableSetter'],
         };
       }
     }
@@ -147,7 +145,7 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
     // 当前 field 没有 value 值时，将 initialValue 写入 field
     // 之所以用 initialValue，而不是 defaultValue 是为了保持跟 props.onInitial 的逻辑一致
     if (!this.state?.fromOnChange && value === undefined && isInitialValueNotEmpty(initialValue)) {
-      const _initialValue = typeof initialValue === 'function' ? initialValue(field.internalToShellPropEntry()) : initialValue;
+      const _initialValue = typeof initialValue === 'function' ? initialValue(field) : initialValue;
       field.setValue(_initialValue);
       value = _initialValue;
     }
@@ -175,9 +173,9 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
           forceInline: extraProps.forceInline,
           key: field.id,
           // === injection
-          prop: field.internalToShellPropEntry(), // for compatible vision
+          prop: field, // for compatible vision
           selected: field.top?.getNode(),
-          field: field.internalToShellPropEntry(),
+          field,
           // === IO
           value, // reaction point
           initialValue,
@@ -194,10 +192,7 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
             if (initialValue == null) {
               return;
             }
-            const value =
-              typeof initialValue === 'function'
-                ? initialValue(field.internalToShellPropEntry())
-                : initialValue;
+            const value = typeof initialValue === 'function' ? initialValue(field) : initialValue;
             this.setState({
               // eslint-disable-next-line react/no-unused-state
               value,
@@ -253,7 +248,8 @@ class SettingGroupView extends Component<SettingGroupViewProps> {
     const { field } = this.props;
     const { extraProps } = field;
     const { condition, display } = extraProps;
-    const visible = field.isSingle && typeof condition === 'function' ? condition(field.internalToShellPropEntry()) !== false : true;
+    const visible =
+      field.isSingle && typeof condition === 'function' ? condition(field) !== false : true;
 
     if (!visible) {
       return null;

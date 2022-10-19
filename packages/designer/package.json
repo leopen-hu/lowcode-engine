@@ -16,7 +16,6 @@
   "license": "MIT",
   "dependencies": {
     "@alilc/lowcode-editor-core": "1.0.14",
-    "@alilc/lowcode-shell": "1.0.14",
     "@alilc/lowcode-types": "1.0.14",
     "@alilc/lowcode-utils": "1.0.14",
     "classnames": "^2.2.6",

@@ -1,7 +1,6 @@
 import { obx, computed, makeObservable, runInAction } from '@alilc/lowcode-editor-core';
 import { GlobalEvent, IEditor, isJSExpression } from '@alilc/lowcode-types';
 import { uniqueId } from '@alilc/lowcode-utils';
-import { SettingPropEntry as ShellSettingPropEntry } from '@alilc/lowcode-shell';
 import { SettingEntry } from './setting-entry';
 import { Node } from '../../document';
 import { ComponentMeta } from '../../component-meta';
@@ -125,11 +124,7 @@ export class SettingPropEntry implements SettingEntry {
     return runInAction(() => {
       if (this.type !== 'field') {
         const { getValue } = this.extraProps;
-        return getValue
-          ? getValue(this.internalToShellPropEntry(), undefined) === undefined
-            ? 0
-            : 1
-          : 0;
+        return getValue ? (getValue(this, undefined) === undefined ? 0 : 1) : 0;
       }
       if (this.nodes.length === 1) {
         return 2;
@@ -165,7 +160,7 @@ export class SettingPropEntry implements SettingEntry {
     }
     const { getValue } = this.extraProps;
     try {
-      return getValue ? getValue(this.internalToShellPropEntry(), val) : val;
+      return getValue ? getValue(this, val) : val;
     } catch (e) {
       console.warn(e);
       return val;
@@ -184,7 +179,7 @@ export class SettingPropEntry implements SettingEntry {
     const { setValue } = this.extraProps;
     if (setValue && !extraOptions?.disableMutator) {
       try {
-        setValue(this.internalToShellPropEntry(), val);
+        setValue(this, val);
       } catch (e) {
         /* istanbul ignore next */
         console.warn(e);
@@ -207,7 +202,7 @@ export class SettingPropEntry implements SettingEntry {
     const { setValue } = this.extraProps;
     if (setValue) {
       try {
-        setValue(this.internalToShellPropEntry(), undefined);
+        setValue(this, undefined);
       } catch (e) {
         /* istanbul ignore next */
         console.warn(e);
@@ -263,6 +258,10 @@ export class SettingPropEntry implements SettingEntry {
   // ======= compatibles for vision ======
   getNode() {
     return this.nodes[0];
+  }
+
+  get node() {
+    return this.getNode();
   }
 
   getName(): string {
@@ -361,9 +360,5 @@ export class SettingPropEntry implements SettingEntry {
       return v.mock;
     }
     return v;
-  }
-
-  internalToShellPropEntry() {
-    return ShellSettingPropEntry.create(this) as any;
   }
 }
