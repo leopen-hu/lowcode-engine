@@ -157,11 +157,7 @@ describe('组件元数据处理', () => {
   describe('checkNesting', () => {
     const mockNode = (componentName) => {
       return {
-        internalToShellNode() {
-          return {
-            componentName,
-          };
-        },
+        componentName,
         isNode: true,
       };
     };

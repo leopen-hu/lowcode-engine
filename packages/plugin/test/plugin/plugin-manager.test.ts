@@ -1,4 +1,4 @@
-import '../fixtures/window';
+import '../../../designer/tests/fixtures/window';
 import { Editor, engineConfig } from '@alilc/lowcode-editor-core';
 import { LowCodePluginManager } from '../../src/plugin/plugin-manager';
 import { ILowCodePluginContext, ILowCodePluginManager } from '../../src/plugin/plugin-types';

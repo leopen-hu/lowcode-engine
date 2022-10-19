@@ -157,64 +157,43 @@ describe('History', () => {
 
     // step 1
     history.back();
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      1,
-      JSON.stringify(dataCursor2),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(1, JSON.stringify(dataCursor2));
     expect(mockStateFn).toHaveBeenNthCalledWith(1, 7);
     expect(mockRedoFn).toHaveBeenNthCalledWith(1, dataCursor2);
 
     // step 2
     history.back();
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      2,
-      JSON.stringify(dataCursor1),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(2, JSON.stringify(dataCursor1));
     expect(mockStateFn).toHaveBeenNthCalledWith(2, 7);
     expect(mockRedoFn).toHaveBeenNthCalledWith(2, dataCursor1);
 
     // step 3
     history.back();
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      3,
-      JSON.stringify(dataCursor0),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(3, JSON.stringify(dataCursor0));
     expect(mockStateFn).toHaveBeenNthCalledWith(3, 7 - 4 - 1);
     expect(mockRedoFn).toHaveBeenNthCalledWith(3, dataCursor0);
 
     // step 4
     history.forward();
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      4,
-      JSON.stringify(dataCursor1),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(4, JSON.stringify(dataCursor1));
     expect(mockStateFn).toHaveBeenNthCalledWith(4, 7);
     expect(mockRedoFn).toHaveBeenNthCalledWith(4, dataCursor1);
 
     // step 5
     history.forward();
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      5,
-      JSON.stringify(dataCursor2),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(5, JSON.stringify(dataCursor2));
     expect(mockStateFn).toHaveBeenNthCalledWith(5, 7);
     expect(mockRedoFn).toHaveBeenNthCalledWith(5, dataCursor2);
 
     // step 6
     history.go(3);
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      6,
-      JSON.stringify(dataCursor3),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(6, JSON.stringify(dataCursor3));
     expect(mockStateFn).toHaveBeenNthCalledWith(6, 7 - 2);
     expect(mockRedoFn).toHaveBeenNthCalledWith(6, dataCursor3);
 
     // step 7
     history.go(0);
-    expect(mockCursorFn).toHaveBeenNthCalledWith(
-      7,
-      JSON.stringify(dataCursor0),
-    );
+    expect(mockCursorFn).toHaveBeenNthCalledWith(7, JSON.stringify(dataCursor0));
     expect(mockStateFn).toHaveBeenNthCalledWith(7, 7 - 4 - 1);
     expect(mockRedoFn).toHaveBeenNthCalledWith(7, dataCursor0);
 
@@ -272,20 +251,6 @@ describe('History', () => {
     expect(history.records).toHaveLength(0);
   });
 
-  it('internalToShellHistory()', async () => {
-    const history = new History<Node>(
-      () => {
-        const data = tree.toObject();
-        return data;
-      },
-      (data) => {
-        mockRedoFn(data);
-      },
-    );
-
-    expect(history.internalToShellHistory().isModified).toBeUndefined();
-  });
-
   it('sleep & wakeup', async () => {
     const mockRedoFn = jest.fn();
     const history = new History<Node>(
@@ -326,8 +291,7 @@ describe('History - errors', () => {
         const data = tree.toObject();
         return data;
       },
-      (data) => {
-      },
+      (data) => {},
     );
 
     history.back();
@@ -340,8 +304,7 @@ describe('History - errors', () => {
         const data = tree.toObject();
         return data;
       },
-      (data) => {
-      },
+      (data) => {},
     );
 
     // @ts-ignore

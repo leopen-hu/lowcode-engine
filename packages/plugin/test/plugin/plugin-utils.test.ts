@@ -1,4 +1,4 @@
-import '../fixtures/window';
+import '../../../designer/tests/fixtures/window';
 import { isValidPreferenceKey, filterValidOptions } from '../../src/plugin/plugin-utils';
 
 describe('plugin utils 测试', () => {
@@ -58,28 +58,47 @@ describe('plugin utils 测试', () => {
 
     expect(filterValidOptions()).toBeUndefined();
     expect(filterValidOptions(1)).toBe(1);
-    expect(filterValidOptions({
+    expect(
+      filterValidOptions(
+        {
+          x: 1,
+          y: 2,
+        },
+        mockDeclaration,
+      ),
+    ).toEqual({
       x: 1,
       y: 2,
-    }, mockDeclaration)).toEqual({
-      x: 1,
-      y: 2,
     });
-    expect(filterValidOptions({
-      x: 1,
-      y: undefined,
-    }, mockDeclaration)).toEqual({
-      x: 1,
-    });
-    expect(filterValidOptions({
-      x: 1,
-      z: null,
-    }, mockDeclaration)).toEqual({
+    expect(
+      filterValidOptions(
+        {
+          x: 1,
+          y: undefined,
+        },
+        mockDeclaration,
+      ),
+    ).toEqual({
       x: 1,
     });
-    expect(filterValidOptions({
-      a: 1,
-    }, mockDeclaration)).toEqual({
+    expect(
+      filterValidOptions(
+        {
+          x: 1,
+          z: null,
+        },
+        mockDeclaration,
+      ),
+    ).toEqual({
+      x: 1,
     });
+    expect(
+      filterValidOptions(
+        {
+          a: 1,
+        },
+        mockDeclaration,
+      ),
+    ).toEqual({});
   });
 });

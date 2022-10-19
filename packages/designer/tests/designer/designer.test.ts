@@ -12,11 +12,7 @@ import divMetadata from '../fixtures/component-metadata/div';
 import { delayObxTick } from '../utils';
 import { fireEvent } from '@testing-library/react';
 
-const mockNode = {
-  internalToShellNode() {
-    return 'mockNode';
-  },
-};
+const mockNode = {};
 
 describe('Designer 测试', () => {
   let editor: Editor;

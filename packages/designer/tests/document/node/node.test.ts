@@ -480,10 +480,10 @@ describe('Node 方法测试', () => {
     const fn2 = callbacks.onNodeRemove = jest.fn();
     const textField = doc.getNode('node_k1ow3cc9');
     form.didDropIn(textField);
-    expect(fn1).toHaveBeenCalledWith(textField.internalToShellNode(), form.internalToShellNode());
+    expect(fn1).toHaveBeenCalledWith(textField, form);
 
     form.didDropOut(textField);
-    expect(fn2).toHaveBeenCalledWith(textField.internalToShellNode(), form.internalToShellNode());
+    expect(fn2).toHaveBeenCalledWith(textField, form);
   });
 
   it('hover', () => {
