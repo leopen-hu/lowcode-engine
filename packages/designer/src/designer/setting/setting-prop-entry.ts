@@ -185,7 +185,6 @@ export class SettingPropEntry implements SettingEntry {
         console.warn(e);
       }
     }
-    this.notifyValueChange(oldValue, val);
     // 如果 fromSetHotValue，那么在 setHotValue 中已经调用过 valueChange 了
     if (!extraOptions?.fromSetHotValue) {
       this.valueChange(extraOptions);
@@ -294,15 +293,6 @@ export class SettingPropEntry implements SettingEntry {
     if (this.parent && isSettingField(this.parent)) {
       this.parent.valueChange(options);
     }
-  }
-
-  notifyValueChange(oldValue: any, newValue: any) {
-    this.editor.emit(GlobalEvent.Node.Prop.Change, {
-      node: this.getNode(),
-      prop: this,
-      oldValue,
-      newValue,
-    });
   }
 
   getDefaultValue() {

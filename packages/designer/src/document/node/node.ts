@@ -365,10 +365,6 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     this._slotFor = slotFor;
   }
 
-  // internalToShellNode(): ShellNode | null {
-  //   return ShellNode.create(this);
-  // }
-
   /**
    * 关联属性
    */
