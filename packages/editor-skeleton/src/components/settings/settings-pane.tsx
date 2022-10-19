@@ -170,42 +170,45 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
         ...extraProps,
       },
       !stageName &&
-      createSetterContent(setterType, {
-        ...shallowIntl(setterProps),
-        forceInline: extraProps.forceInline,
-        key: field.id,
-        // === injection
-        prop: field.internalToShellPropEntry(), // for compatible vision
-        selected: field.top?.getNode()?.internalToShellNode(),
-        field: field.internalToShellPropEntry(),
-        // === IO
-        value, // reaction point
-        initialValue,
-        onChange: (value: any) => {
-          this.setState({
-            fromOnChange: true,
-            // eslint-disable-next-line react/no-unused-state
-            value,
-          });
-          field.setValue(value, true);
-          if (_onChange) _onChange(value, field);
-        },
-        onInitial: () => {
-          if (initialValue == null) {
-            return;
-          }
-          const value = typeof initialValue === 'function' ? initialValue(field.internalToShellPropEntry()) : initialValue;
-          this.setState({
-            // eslint-disable-next-line react/no-unused-state
-            value,
-          });
-          field.setValue(value, true);
-        },
+        createSetterContent(setterType, {
+          ...shallowIntl(setterProps),
+          forceInline: extraProps.forceInline,
+          key: field.id,
+          // === injection
+          prop: field.internalToShellPropEntry(), // for compatible vision
+          selected: field.top?.getNode(),
+          field: field.internalToShellPropEntry(),
+          // === IO
+          value, // reaction point
+          initialValue,
+          onChange: (value: any) => {
+            this.setState({
+              fromOnChange: true,
+              // eslint-disable-next-line react/no-unused-state
+              value,
+            });
+            field.setValue(value, true);
+            if (_onChange) _onChange(value, field);
+          },
+          onInitial: () => {
+            if (initialValue == null) {
+              return;
+            }
+            const value =
+              typeof initialValue === 'function'
+                ? initialValue(field.internalToShellPropEntry())
+                : initialValue;
+            this.setState({
+              // eslint-disable-next-line react/no-unused-state
+              value,
+            });
+            field.setValue(value, true);
+          },
 
-        removeProp: () => {
-          field.parent.clearPropValue(field.name);
-        },
-      }),
+          removeProp: () => {
+            field.parent.clearPropValue(field.name);
+          },
+        }),
       extraProps.forceInline ? 'plain' : extraProps.display,
     );
   }

@@ -19,7 +19,6 @@ import {
 } from '@alilc/lowcode-types';
 import { compatStage } from '@alilc/lowcode-utils';
 import { SettingTopEntry } from '@alilc/lowcode-designer';
-import { Node as ShellNode } from '@alilc/lowcode-shell';
 import { Props, getConvertedExtraKey } from './props/props';
 import { DocumentModel } from '../document-model';
 import { NodeChildren } from './node-children';
@@ -304,8 +303,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
   private didDropIn(dragment: Node) {
     const callbacks = this.componentMeta.getMetadata().configure.advanced?.callbacks;
     if (callbacks?.onNodeAdd) {
-      const cbThis = this.internalToShellNode();
-      callbacks?.onNodeAdd.call(cbThis, dragment.internalToShellNode(), cbThis);
+      callbacks?.onNodeAdd.call(this, dragment, this);
     }
     if (this._parent) {
       this._parent.didDropIn(dragment);
@@ -315,8 +313,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
   private didDropOut(dragment: Node) {
     const callbacks = this.componentMeta.getMetadata().configure.advanced?.callbacks;
     if (callbacks?.onNodeRemove) {
-      const cbThis = this.internalToShellNode();
-      callbacks?.onNodeRemove.call(cbThis, dragment.internalToShellNode(), cbThis);
+      callbacks?.onNodeRemove.call(this, dragment, this);
     }
     if (this._parent) {
       this._parent.didDropOut(dragment);
@@ -368,9 +365,9 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     this._slotFor = slotFor;
   }
 
-  internalToShellNode(): ShellNode | null {
-    return ShellNode.create(this);
-  }
+  // internalToShellNode(): ShellNode | null {
+  //   return ShellNode.create(this);
+  // }
 
   /**
    * 关联属性

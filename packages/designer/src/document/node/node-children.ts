@@ -422,11 +422,7 @@ export class NodeChildren {
     const callbacks = owner.componentMeta.getMetadata().configure.advanced?.callbacks;
     if (callbacks?.onSubtreeModified) {
       try {
-        callbacks?.onSubtreeModified.call(
-          node.internalToShellNode(),
-          owner.internalToShellNode(),
-          options,
-        );
+        callbacks?.onSubtreeModified.call(node, owner, options);
       } catch (e) {
         console.error('error when execute advanced.callbacks.onSubtreeModified', e);
       }

@@ -302,8 +302,8 @@ export class ComponentMeta {
     // 检查父子关系，直接约束型，在画布中拖拽直接掠过目标容器
     if (this.parentWhitelist) {
       return this.parentWhitelist(
-        parent.internalToShellNode(),
-        isNode(my) ? my.internalToShellNode() : my,
+        parent,
+        my,
       );
     }
     return true;
@@ -317,7 +317,7 @@ export class ComponentMeta {
         const _item = !isNode(item) ? new Node(my.document, item) : item;
         return (
           this.childWhitelist &&
-          this.childWhitelist(_item.internalToShellNode(), my.internalToShellNode())
+          this.childWhitelist(_item, my)
         );
       });
     }

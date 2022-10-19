@@ -551,7 +551,7 @@ export class Designer {
 
     return reducers.reduce((xprops, reducer) => {
       try {
-        return reducer(xprops, node.internalToShellNode() as any, { stage });
+        return reducer(xprops, node, { stage });
       } catch (e) {
         // todo: add log
         console.warn(e);

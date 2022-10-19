@@ -144,7 +144,7 @@ export class BoxResizingInstance extends Component<{
         (e as any).trigger = direction;
         (e as any).deltaX = moveX;
         (e as any).deltaY = moveY;
-        const cbNode = node?.isNode ? node.internalToShellNode() : node;
+        const cbNode = node;
         metadata.configure.advanced.callbacks.onResize(e, cbNode);
       }
     };
@@ -156,7 +156,7 @@ export class BoxResizingInstance extends Component<{
         typeof metadata.configure.advanced.callbacks.onResizeStart === 'function'
       ) {
         (e as any).trigger = direction;
-        const cbNode = node?.isNode ? node.internalToShellNode() : node;
+        const cbNode = node;
         metadata.configure.advanced.callbacks.onResizeStart(e, cbNode);
       }
     };
@@ -168,7 +168,7 @@ export class BoxResizingInstance extends Component<{
         typeof metadata.configure.advanced.callbacks.onResizeEnd === 'function'
       ) {
         (e as any).trigger = direction;
-        const cbNode = node?.isNode ? node.internalToShellNode() : node;
+        const cbNode = node;
         metadata.configure.advanced.callbacks.onResizeEnd(e, cbNode);
       }
 
@@ -243,7 +243,7 @@ export class BoxResizingInstance extends Component<{
     let triggerVisible: any = [];
     const metadata = node.componentMeta.getMetadata();
     if (metadata.configure?.advanced?.getResizingHandlers) {
-      triggerVisible = metadata.configure.advanced.getResizingHandlers(node.internalToShellNode());
+      triggerVisible = metadata.configure.advanced.getResizingHandlers(node);
     }
 
     triggerVisible = normalizeTriggers(triggerVisible);
