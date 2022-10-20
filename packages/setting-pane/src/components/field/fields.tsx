@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import { Component, MouseEvent } from 'react';
 import { isObject } from 'lodash';
 import classNames from 'classnames';
@@ -29,7 +30,7 @@ export class Field extends Component<FieldProps> {
     hasError: false,
   };
 
-  constructor(props: any) {
+  constructor(props: FieldProps) {
     super(props);
     this.handleClear = this.handleClear.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
@@ -156,22 +157,23 @@ export class Field extends Component<FieldProps> {
         })}
         id={id}
       >
-        {
-          display !== 'plain' && (
-            <div className="lc-field-head" onClick={isAccordion ? this.toggleExpand : undefined}>
-              <div className="lc-field-title">
-                {createValueState(valueState, this.handleClear)}
-                <Title
-                  title={title || ''}
-                  onClick={this.clickHandler}
-                />
-                <InlineTip position="top">{tipContent}</InlineTip>
-              </div>
-              {isAccordion && <Icon className="lc-field-icon" type="arrow-up" size="xs" />}
+        {display !== 'plain' && (
+          <div className="lc-field-head" onClick={isAccordion ? this.toggleExpand : undefined}>
+            <div className="lc-field-title">
+              {createValueState(valueState, this.handleClear)}
+              <Title title={title || ''} onClick={this.clickHandler} />
+              <InlineTip position="top">{tipContent}</InlineTip>
             </div>
-          )
-        }
-        <div key="body" ref={(shell) => { this.body = shell; }} className="lc-field-body">
+            {isAccordion && <Icon className="lc-field-icon" type="arrow-up" size="xs" />}
+          </div>
+        )}
+        <div
+          key="body"
+          ref={(shell) => {
+            this.body = shell;
+          }}
+          className="lc-field-body"
+        >
           {children}
         </div>
       </div>

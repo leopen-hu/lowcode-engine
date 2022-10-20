@@ -1,10 +1,9 @@
 import {
   Skeleton as InnerSkeleton,
-  createSettingFieldView,
-  PopupContext,
-  PopupPipe,
   Workbench as InnerWorkbench,
 } from '@alilc/lowcode-editor-skeleton';
+
+import { createSettingFieldView, PopupContext, PopupPipe } from '@alilc/lowcode-setting-pane';
 
 export default function getSkeletonCabin(skeleton: InnerSkeleton) {
   return {

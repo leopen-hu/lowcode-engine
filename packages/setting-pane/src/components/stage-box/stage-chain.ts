@@ -1,17 +1,16 @@
 import { EventEmitter } from 'events';
-import { Stage as StageWidget } from '../../widget/stage';
 
 export default class StageChain {
   private emitter: EventEmitter;
 
-  private stage: StageWidget;
+  private stage: any;
 
-  constructor(stage: StageWidget) {
+  constructor(stage: any) {
     this.emitter = new EventEmitter();
     this.stage = stage;
   }
 
-  stagePush(stage: StageWidget | null) {
+  stagePush(stage: any | null) {
     if (!stage) return;
     stage.setPrevious(this.stage);
     stage.setReferLeft(this.stage);

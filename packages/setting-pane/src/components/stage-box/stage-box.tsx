@@ -4,9 +4,7 @@ import { observer } from '@alilc/lowcode-editor-core';
 import { SettingTopEntry, SettingField } from '@alilc/lowcode-designer';
 import StageChain from './stage-chain';
 import Stage from './stage';
-import { Skeleton } from '../../skeleton';
 import PopupService, { PopupPipe } from '../popup';
-import { Stage as StageWidget } from '../../widget/stage';
 
 export const StageBoxDefaultProps = {};
 
@@ -14,8 +12,9 @@ export type StageBoxProps = typeof StageBoxDefaultProps & {
   stageChain?: StageChain;
   className?: string;
   children: React.ReactNode;
-  skeleton: Skeleton;
+  skeleton: any;
   // @todo to remove
+  // eslint-disable-next-line react/no-unused-prop-types
   target?: SettingTopEntry | SettingField;
 };
 
@@ -47,7 +46,7 @@ export default class StageBox extends Component<StageBoxProps> {
         content: children,
         isRoot: true,
       });
-      this.stageChain = new StageChain(skeleton.getStage(stateName as string) as StageWidget);
+      this.stageChain = new StageChain(skeleton.getStage(stateName as string));
     }
     this.willDetach.push(this.stageChain.onStageChange(() => this.forceUpdate()));
   }
@@ -107,8 +106,12 @@ export default class StageBox extends Component<StageBoxProps> {
     let contentRefer = null;
 
     if (refer) {
-      contentCurrent = <Stage key={stage.getId()} stage={stage} direction={refer.direction} current />;
-      contentRefer = <Stage key={refer?.stage?.getId()} stage={refer?.stage} direction={refer.direction} />;
+      contentCurrent = (
+        <Stage key={stage.getId()} stage={stage} direction={refer.direction} current />
+      );
+      contentRefer = (
+        <Stage key={refer?.stage?.getId()} stage={refer?.stage} direction={refer.direction} />
+      );
     } else {
       contentCurrent = <Stage key={stage.getId()} stage={stage} current />;
     }
@@ -120,12 +123,9 @@ export default class StageBox extends Component<StageBoxProps> {
         }}
         className={className}
       >
-
         <PopupService popupPipe={this.popupPipe}>
-
           {contentRefer}
           {contentCurrent}
-
         </PopupService>
       </div>
     );
