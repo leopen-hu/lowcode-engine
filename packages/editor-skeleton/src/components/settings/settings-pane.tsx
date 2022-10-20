@@ -1,12 +1,16 @@
 import { Component, MouseEvent, Fragment } from 'react';
 import { shallowIntl, createSetterContent, observer, obx, engineConfig, runInAction, globalContext } from '@alilc/lowcode-editor-core';
 import { createContent } from '@alilc/lowcode-utils';
-import { Skeleton } from '@alilc/lowcode-editor-skeleton';
 import { isSetterConfig, CustomView, isJSSlot } from '@alilc/lowcode-types';
-import { SettingField, isSettingField, SettingTopEntry, SettingEntry, ComponentMeta } from '@alilc/lowcode-designer';
+import {
+  SettingField,
+  isSettingField,
+  SettingTopEntry,
+  SettingEntry,
+  ComponentMeta,
+} from '@alilc/lowcode-designer';
 import { createField } from '../field';
 import PopupService, { PopupPipe } from '../popup';
-import { SkeletonContext } from '../../context';
 // import { Icon } from '@alifd/next';
 import { intl } from '../../locale';
 
@@ -26,18 +30,22 @@ function isStandardComponent(componentMeta: ComponentMeta | null) {
 function isInitialValueNotEmpty(initialValue: any) {
   if (isJSSlot(initialValue)) {
     // @ts-ignore visible 为 false 代表默认不展示
-    return initialValue.visible !== false && Array.isArray(initialValue.value) && initialValue.value.length > 0;
+    return (
+      initialValue.visible !== false &&
+      Array.isArray(initialValue.value) &&
+      initialValue.value.length > 0
+    );
   }
-  return (initialValue !== undefined && initialValue !== null);
+  return initialValue !== undefined && initialValue !== null;
 }
 
 type SettingFieldViewProps = { field: SettingField };
 type SettingFieldViewState = { fromOnChange: boolean; value: any };
 @observer
 class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldViewState> {
-  static contextType = SkeletonContext;
-
   stageName: string | undefined;
+
+  private readonly editor = globalContext.get('editor');
 
   constructor(props: SettingFieldViewProps) {
     super(props);
@@ -46,8 +54,7 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
     const { extraProps } = field;
     const { display } = extraProps;
 
-    const editor = globalContext.get('editor');
-    const { stages } = editor.get('skeleton') as Skeleton;
+    const { stages } = this.editor.get('skeleton');
     let stageName;
     if (display === 'entry') {
       runInAction(() => {
@@ -57,7 +64,11 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
         const stage = stages.add({
           type: 'Widget',
           name: stageName,
-          content: <Fragment>{field.items.map((item, index) => createSettingFieldView(item, field, index))}</Fragment>,
+          content: (
+            <Fragment>
+              {field.items.map((item, index) => createSettingFieldView(item, field, index))}
+            </Fragment>
+          ),
           props: {
             title: field.title,
           },
@@ -212,8 +223,6 @@ class SettingFieldView extends Component<SettingFieldViewProps, SettingFieldView
 type SettingGroupViewProps = SettingFieldViewProps;
 @observer
 class SettingGroupView extends Component<SettingGroupViewProps> {
-  static contextType = SkeletonContext;
-
   stageName: string | undefined;
 
   constructor(props: SettingGroupViewProps) {
@@ -222,7 +231,7 @@ class SettingGroupView extends Component<SettingGroupViewProps> {
     const { extraProps } = field;
     const { display } = extraProps;
     const editor = globalContext.get('editor');
-    const { stages } = editor.get('skeleton') as Skeleton;
+    const { stages } = editor.get('skeleton');
     // const items = field.items;
 
     let stageName;
@@ -234,7 +243,11 @@ class SettingGroupView extends Component<SettingGroupViewProps> {
         stages.add({
           type: 'Widget',
           name: stageName,
-          content: <Fragment>{field.items.map((item, index) => createSettingFieldView(item, field, index))}</Fragment>,
+          content: (
+            <Fragment>
+              {field.items.map((item, index) => createSettingFieldView(item, field, index))}
+            </Fragment>
+          ),
           props: {
             title: field.title,
           },
@@ -273,7 +286,11 @@ class SettingGroupView extends Component<SettingGroupViewProps> {
   }
 }
 
-export function createSettingFieldView(item: SettingField | CustomView, field: SettingEntry, index?: number) {
+export function createSettingFieldView(
+  item: SettingField | CustomView,
+  field: SettingEntry,
+  index?: number,
+) {
   if (isSettingField(item)) {
     if (item.isGroup) {
       return <SettingGroupView field={item} key={item.id} />;
@@ -292,7 +309,7 @@ export type SettingsPaneProps = {
 
 @observer
 export class SettingsPane extends Component<SettingsPaneProps> {
-  static contextType = SkeletonContext;
+  private readonly editor = globalContext.get('editor');
 
   @obx private currentStage?: Stage;
 
@@ -322,7 +339,7 @@ export class SettingsPane extends Component<SettingsPaneProps> {
       return;
     }
 
-    const skeleton = this.context as Skeleton;
+    const skeleton = this.editor.get('skeleton');
     if (!skeleton || !skeleton.stages) {
       return;
     }

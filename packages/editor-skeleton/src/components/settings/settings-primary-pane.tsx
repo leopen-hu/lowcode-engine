@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 import { Tab, Breadcrumb } from '@alifd/next';
 import { Title, observer, Editor, obx, globalContext, engineConfig, makeObservable } from '@alilc/lowcode-editor-core';
-import { Node, isSettingField, SettingField, Designer } from '@alilc/lowcode-designer';
+import { Node, isSettingField, SettingField } from '@alilc/lowcode-designer';
 import classNames from 'classnames';
 import { SettingsMain } from './main';
 import { SettingsPane } from './settings-pane';
 import { StageBox } from '../stage-box';
-import { SkeletonContext } from '../../context';
 import { createIcon } from '@alilc/lowcode-utils';
 
 @observer
-export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any }, { shouldIgnoreRoot: boolean }> {
+export class SettingsPrimaryPane extends Component<
+  { editor: Editor; config: any },
+  { shouldIgnoreRoot: boolean }
+> {
   state = {
     shouldIgnoreRoot: false,
   };
-  private main = new SettingsMain(globalContext.get('editor'));
+  private readonly editor = globalContext.get('editor');
+
+  private main = new SettingsMain(this.editor);
 
   @obx.ref private _activeKey?: any;
 
-  constructor(props) {
+  constructor(props: { editor: Editor; config: any }) {
     super(props);
     makeObservable(this);
   }
@@ -26,7 +30,7 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
   componentDidMount() {
     this.setShouldIgnoreRoot();
 
-    globalContext.get('editor').on('designer.selection.change', () => {
+    this.editor.on('designer.selection.change', () => {
       if (!engineConfig.get('stayOnTheSameSettingTab', false)) {
         this._activeKey = null;
       }
@@ -34,7 +38,7 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
   }
 
   async setShouldIgnoreRoot() {
-    const designMode = await globalContext.get('editor').get('designMode');
+    const designMode = await this.editor.get('designMode');
     this.setState({
       shouldIgnoreRoot: designMode === 'live',
     });
@@ -65,8 +69,7 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
       );
     }
 
-    const editor = globalContext.get('editor');
-    const designer = editor.get('designer');
+    const designer = this.editor.get('designer');
     const current = designer?.currentSelection?.getNodes()?.[0];
     let node: Node | null = settings.first;
     const { focusNode } = node.document;
@@ -79,34 +82,36 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
       if (shouldIgnoreRoot && node.isRoot()) {
         break;
       }
-      if (node.contains(focusNode)) {
+      if (focusNode && node.contains(focusNode)) {
         l = 0;
       }
       const props =
         l === 2
           ? {}
           : {
-            onMouseOver: hoverNode.bind(null, _node, true),
-            onMouseOut: hoverNode.bind(null, _node, false),
-            onClick: () => {
-              if (!_node) {
-                return;
-              }
-              selectNode.call(null, _node);
-              const getName = (node: any) => {
-                const npm = node?.componentMeta?.npm;
-                return [npm?.package, npm?.componentName].filter((item) => !!item).join('-') ||
-                  node?.componentMeta?.componentName ||
-                  '';
-              };
-              const selected = getName(current);
-              const target = getName(_node);
-              editor?.emit('skeleton.settingsPane.Breadcrumb', {
-                selected,
-                target,
-              });
-            },
-          };
+              onMouseOver: hoverNode.bind(null, _node, true),
+              onMouseOut: hoverNode.bind(null, _node, false),
+              onClick: () => {
+                if (!_node) {
+                  return;
+                }
+                selectNode.call(null, _node);
+                const getName = (node: any) => {
+                  const npm = node?.componentMeta?.npm;
+                  return (
+                    [npm?.package, npm?.componentName].filter((item) => !!item).join('-') ||
+                    node?.componentMeta?.componentName ||
+                    ''
+                  );
+                };
+                const selected = getName(current);
+                const target = getName(_node);
+                this.editor?.emit('skeleton.settingsPane.Breadcrumb', {
+                  selected,
+                  target,
+                });
+              },
+            };
       items.unshift(
         <Breadcrumb.Item {...props} key={node.id}>
           <Title title={node.title} />
@@ -128,7 +133,6 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
 
   render() {
     const { settings } = this.main;
-    const editor = globalContext.get('editor');
     if (!settings) {
       // 未选中节点，提示选中 或者 显示根节点设置
       return (
@@ -177,18 +181,16 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
         <div className="lc-settings-main">
           {this.renderBreadcrumb()}
           <div className="lc-settings-body">
-            <SkeletonContext.Consumer>
-              {(skeleton) => {
-                if (skeleton) {
-                  return (
-                    <StageBox skeleton={skeleton} target={settings} key={settings.id}>
-                      <SettingsPane target={settings} usePopup={false} />
-                    </StageBox>
-                  );
-                }
-                return null;
-              }}
-            </SkeletonContext.Consumer>
+            {((skeleton = this.editor.get('skeleton')) => {
+              if (skeleton) {
+                return (
+                  <StageBox skeleton={skeleton} target={settings} key={settings.id}>
+                    <SettingsPane target={settings} usePopup={false} />
+                  </StageBox>
+                );
+              }
+              return null;
+            })()}
           </div>
         </div>
       );
@@ -204,27 +206,23 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
           className="lc-settings-tab-item"
           title={<Title title={field.title} />}
           key={field.name}
-          onClick={
-            () => {
-              editor?.emit('skeleton.settingsPane.change', {
-                name: field.name,
-                title: field.title,
-              });
-            }
-          }
+          onClick={() => {
+            this.editor?.emit('skeleton.settingsPane.change', {
+              name: field.name,
+              title: field.title,
+            });
+          }}
         >
-          <SkeletonContext.Consumer>
-            {(skeleton) => {
-              if (skeleton) {
-                return (
-                  <StageBox skeleton={skeleton} target={field} key={field.id}>
-                    <SettingsPane target={field} key={field.id} usePopup={false} />
-                  </StageBox>
-                );
-              }
-              return null;
-            }}
-          </SkeletonContext.Consumer>
+          {((skeleton = this.editor.get('skeleton')) => {
+            if (skeleton) {
+              return (
+                <StageBox skeleton={skeleton} target={field} key={field.id}>
+                  <SettingsPane target={field} key={field.id} usePopup={false} />
+                </StageBox>
+              );
+            }
+            return null;
+          })()}
         </Tab.Item>
       );
     });
@@ -236,7 +234,7 @@ export class SettingsPrimaryPane extends Component<{ editor: Editor; config: any
     });
     return (
       <div className={className}>
-        { this.renderBreadcrumb() }
+        {this.renderBreadcrumb()}
         <Tab
           activeKey={activeKey}
           onChange={(tabKey) => {
