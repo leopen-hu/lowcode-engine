@@ -1,4 +1,4 @@
-import { obx, computed, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable } from 'mobx';
 import { uniqueId } from '@alilc/lowcode-utils';
 import { createElement, ReactNode, ReactInstance } from 'react';
 import { Skeleton } from '../skeleton';
@@ -169,7 +169,6 @@ export default class PanelDock implements IWidget {
     return this.panel?.onActiveChange(func);
   }
 }
-
 
 export function isPanelDock(obj: any): obj is PanelDock {
   return obj && obj.isPanelDock;

@@ -1,5 +1,5 @@
 import { ReactNode, createElement } from 'react';
-import { makeObservable, obx } from '@alilc/lowcode-editor-core';
+import { makeObservable, observable as obx } from 'mobx';
 import { createContent, uniqueId } from '@alilc/lowcode-utils';
 import { getEvent } from '@alilc/lowcode-shell';
 import { WidgetConfig, IWidgetBaseConfig } from '../types';

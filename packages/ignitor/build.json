@@ -1,5 +1,9 @@
 {
   "entry": {
+    "designer": "../designer/src/index.ts",
+    "editor-core": "../editor-core/src/index.ts",
+    "editor-skeleton": "../editor-skeleton/src/index.ts",
+    "plugin": "../plugin/src/index.ts",
     "engine-core": "../engine/src/index.ts",
     "react-simulator-renderer": "../react-simulator-renderer/src/index.ts",
     "rax-simulator-renderer": "../rax-simulator-renderer/src/index.ts"

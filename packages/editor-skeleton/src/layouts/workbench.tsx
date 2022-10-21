@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { TipContainer, observer } from '@alilc/lowcode-editor-core';
+import { TipContainer } from '@alilc/lowcode-editor-core';
+import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import { Skeleton } from '../skeleton';
 import TopArea from './top-area';

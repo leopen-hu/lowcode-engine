@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { createElement, ReactNode } from 'react';
-import { obx, computed, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable } from 'mobx';
 import { uniqueId, createContent } from '@alilc/lowcode-utils';
 import { TitleContent } from '@alilc/lowcode-types';
 import WidgetContainer from './widget-container';

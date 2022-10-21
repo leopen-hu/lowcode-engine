@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import classNames from 'classnames';
-import { observer } from '@alilc/lowcode-editor-core';
+import { observer } from 'mobx-react';
 import Area from '../area';
 import Panel from '../widget/panel';
 import Widget from '../widget/widget';

@@ -1,4 +1,4 @@
-import { obx, computed, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable } from 'mobx';
 import WidgetContainer from './widget/widget-container';
 import { Skeleton } from './skeleton';
 import { IWidget } from './widget/widget';

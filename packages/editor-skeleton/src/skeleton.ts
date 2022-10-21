@@ -1,4 +1,5 @@
-import { Editor, action, makeObservable } from '@alilc/lowcode-editor-core';
+import { Editor } from '@alilc/lowcode-editor-core';
+import { action, makeObservable } from 'mobx';
 import {
   DockConfig,
   PanelConfig,
