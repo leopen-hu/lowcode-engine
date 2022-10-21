@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { observer, globalContext } from '@alilc/lowcode-editor-core';
+import { globalContext } from '@alilc/lowcode-editor-core';
+import { observer } from 'mobx-react';
 import { BuiltinSimulatorHost, BuiltinSimulatorProps } from './host';
 import { BemTools } from './bem-tools';
 import { Project } from '../project';

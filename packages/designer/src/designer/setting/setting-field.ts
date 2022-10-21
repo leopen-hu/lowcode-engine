@@ -2,7 +2,7 @@ import { TitleContent, isDynamicSetter, SetterType, DynamicSetter, FieldExtraPro
 import { Transducer } from './utils';
 import { SettingPropEntry } from './setting-prop-entry';
 import { SettingEntry } from './setting-entry';
-import { computed, obx, makeObservable, action } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable, action } from 'mobx';
 import { cloneDeep } from '@alilc/lowcode-utils';
 import type { ISetValueOptions } from '../../types';
 

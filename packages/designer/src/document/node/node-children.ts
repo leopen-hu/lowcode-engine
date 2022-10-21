@@ -1,4 +1,5 @@
-import { obx, computed, globalContext, makeObservable } from '@alilc/lowcode-editor-core';
+import { globalContext } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable } from 'mobx';
 import { Node, ParentalNode } from './node';
 import { TransformStage } from './transform-stage';
 import { NodeData, isNodeSchema } from '@alilc/lowcode-types';

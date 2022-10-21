@@ -1,6 +1,8 @@
 import { Component, Fragment, PureComponent } from 'react';
 import classNames from 'classnames';
-import { computed, observer, Title } from '@alilc/lowcode-editor-core';
+import { computed } from 'mobx';
+import { observer } from 'mobx-react';
+import { Title } from '@alilc/lowcode-editor-core';
 import { TitleContent } from '@alilc/lowcode-types';
 import { getClosestNode } from '@alilc/lowcode-utils';
 

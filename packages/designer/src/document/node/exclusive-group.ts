@@ -1,4 +1,4 @@
-import { obx, computed, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, makeObservable, computed } from 'mobx';
 import { uniqueId } from '@alilc/lowcode-utils';
 import { TitleContent } from '@alilc/lowcode-types';
 import { Node } from './node';

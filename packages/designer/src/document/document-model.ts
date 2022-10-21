@@ -1,10 +1,26 @@
-import { computed, makeObservable, obx, action, runWithGlobalEventOff, wrapWithEventSwitch } from '@alilc/lowcode-editor-core';
-import { NodeData, isJSExpression, isDOMText, NodeSchema, isNodeSchema, RootSchema, PageSchema, ComponentsMap } from '@alilc/lowcode-types';
+import { observable as obx, makeObservable, action } from 'mobx';
+import { runWithGlobalEventOff, wrapWithEventSwitch } from '@alilc/lowcode-editor-core';
+import {
+  NodeData,
+  isJSExpression,
+  isDOMText,
+  NodeSchema,
+  isNodeSchema,
+  RootSchema,
+  PageSchema,
+  ComponentsMap,
+} from '@alilc/lowcode-types';
 import { EventEmitter } from 'events';
 import { Project } from '../project';
 import { ISimulatorHost } from '../simulator';
 import { ComponentMeta } from '../component-meta';
-import { isDragNodeDataObject, DragNodeObject, DragNodeDataObject, DropLocation, Designer } from '../designer';
+import {
+  isDragNodeDataObject,
+  DragNodeObject,
+  DragNodeDataObject,
+  DropLocation,
+  Designer,
+} from '../designer';
 import { Node, insertChildren, insertChild, isNode, RootNode, ParentalNode } from './node/node';
 import { Selection } from './selection';
 import { History } from './history';
@@ -13,8 +29,8 @@ import { uniqueId, isPlainObject, compatStage } from '@alilc/lowcode-utils';
 
 export type GetDataType<T, NodeType> = T extends undefined
   ? NodeType extends {
-    schema: infer R;
-  }
+      schema: infer R;
+    }
     ? R
     : any
   : T;
@@ -87,7 +103,8 @@ export class DocumentModel {
     if (this._drillDownNode) {
       return this._drillDownNode;
     }
-    const selector = this.designer.editor?.get<((rootNode: RootNode) => Node) | null>('focusNodeSelector');
+    const selector = this.designer
+      .editor?.get<((rootNode: RootNode) => Node) | null>('focusNodeSelector');
     if (selector && typeof selector === 'function') {
       return selector(this.rootNode!);
     }
@@ -205,7 +222,10 @@ export class DocumentModel {
    * 根据 schema 创建一个节点
    */
   @action
-  createNode<T extends Node = Node, C = undefined>(data: GetDataType<C, T>, checkId: boolean = true): T {
+  createNode<T extends Node = Node, C = undefined>(
+    data: GetDataType<C, T>,
+    checkId: boolean = true,
+  ): T {
     let schema: any;
     if (isDOMText(data) || isJSExpression(data)) {
       schema = {
@@ -255,14 +275,24 @@ export class DocumentModel {
   /**
    * 插入一个节点
    */
-  insertNode(parent: ParentalNode, thing: Node | NodeData, at?: number | null, copy?: boolean): Node {
+  insertNode(
+    parent: ParentalNode,
+    thing: Node | NodeData,
+    at?: number | null,
+    copy?: boolean,
+  ): Node {
     return insertChild(parent, thing, at, copy);
   }
 
   /**
    * 插入多个节点
    */
-  insertNodes(parent: ParentalNode, thing: Node[] | NodeData[], at?: number | null, copy?: boolean) {
+  insertNodes(
+    parent: ParentalNode,
+    thing: Node[] | NodeData[],
+    at?: number | null,
+    copy?: boolean,
+  ) {
     return insertChildren(parent, thing, at, copy);
   }
 
@@ -350,7 +380,7 @@ export class DocumentModel {
     const drillDownNodeId = this._drillDownNode?.id;
     runWithGlobalEventOff(() => {
       // TODO: 暂时用饱和式删除，原因是 Slot 节点并不是树节点，无法正常递归删除
-      this.nodes.forEach(node => {
+      this.nodes.forEach((node) => {
         if (node.isRoot()) return;
         this.internalRemoveAndPurgeNode(node, true);
       });
@@ -369,8 +399,8 @@ export class DocumentModel {
     const currentSchema = this.rootNode?.export(stage);
     if (Array.isArray(currentSchema?.children) && currentSchema?.children.length > 0) {
       const FixedTopNodeIndex = currentSchema.children
-        .filter(i => isPlainObject(i))
-        .findIndex((i => (i as NodeSchema).props?.__isTopFixed__));
+        .filter((i) => isPlainObject(i))
+        .findIndex((i) => (i as NodeSchema).props?.__isTopFixed__);
       if (FixedTopNodeIndex > 0) {
         const FixedTopNode = currentSchema.children.splice(FixedTopNodeIndex, 1);
         currentSchema.children.unshift(FixedTopNode[0]);
@@ -515,7 +545,10 @@ export class DocumentModel {
     return items.every((item) => this.checkNestingDown(dropTarget, item));
   }
 
-  checkDropTarget(dropTarget: ParentalNode, dragObject: DragNodeObject | DragNodeDataObject): boolean {
+  checkDropTarget(
+    dropTarget: ParentalNode,
+    dragObject: DragNodeObject | DragNodeDataObject,
+  ): boolean {
     let items: Array<Node | NodeSchema>;
     if (isDragNodeDataObject(dragObject)) {
       items = Array.isArray(dragObject.data) ? dragObject.data : [dragObject.data];
@@ -584,7 +617,7 @@ export class DocumentModel {
 
   /**
    * @deprecated
-  */
+   */
   /* istanbul ignore next */
   exportAddonData() {
     const addons = {};
@@ -618,10 +651,7 @@ export class DocumentModel {
   }
 
   /* istanbul ignore next */
-  acceptRootNodeVisitor(
-    visitorName = 'default',
-    visitorFn: (node: RootNode) => any,
-  ) {
+  acceptRootNodeVisitor(visitorName = 'default', visitorFn: (node: RootNode) => any) {
     let visitorResult = {};
     if (!visitorName) {
       /* eslint-disable-next-line no-console */
@@ -666,7 +696,7 @@ export class DocumentModel {
     }
     // 合并外界传入的自定义渲染的组件
     if (Array.isArray(extraComps)) {
-      extraComps.forEach(c => {
+      extraComps.forEach((c) => {
         if (c && !exsitingMap[c]) {
           const m = this.getComponentMeta(c);
           if (m && m.npm?.package) {

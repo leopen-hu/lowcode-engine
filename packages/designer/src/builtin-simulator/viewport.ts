@@ -1,4 +1,4 @@
-import { obx, computed, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable } from 'mobx';
 import { Point, ScrollTarget } from '../designer';
 import { AutoFit, IViewport } from '../simulator';
 

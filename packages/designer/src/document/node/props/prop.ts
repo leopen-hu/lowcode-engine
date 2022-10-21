@@ -1,5 +1,14 @@
-import { untracked, computed, obx, engineConfig, action, makeObservable, mobx, runInAction } from '@alilc/lowcode-editor-core';
-import { CompositeValue, GlobalEvent, isJSExpression, isJSSlot, JSSlot, SlotSchema } from '@alilc/lowcode-types';
+import { engineConfig } from '@alilc/lowcode-editor-core';
+import * as mobx from 'mobx';
+import { observable as obx, computed, makeObservable, action, untracked, runInAction } from 'mobx';
+import {
+  CompositeValue,
+  GlobalEvent,
+  isJSExpression,
+  isJSSlot,
+  JSSlot,
+  SlotSchema,
+} from '@alilc/lowcode-types';
 import { uniqueId, isPlainObject, hasOwnProperty, compatStage } from '@alilc/lowcode-utils';
 import { valueToSource } from './value-to-source';
 import { Props } from './props';
@@ -132,7 +141,7 @@ export class Prop implements IPropParent {
     }
 
     if (type === 'slot') {
-      const schema = this._slotNode?.export(stage) || {} as any;
+      const schema = this._slotNode?.export(stage) || ({} as any);
       if (stage === TransformStage.Render) {
         return {
           type: 'JSSlot',
@@ -173,7 +182,7 @@ export class Prop implements IPropParent {
       const values = this.items!.map((prop) => {
         return prop.export(stage);
       });
-      if (values.every(val => val === undefined)) {
+      if (values.every((val) => val === undefined)) {
         return undefined;
       }
       return values;
@@ -259,7 +268,7 @@ export class Prop implements IPropParent {
       } else {
         this._type = 'map';
       }
-    } else /* istanbul ignore next */ {
+    } /* istanbul ignore next */ else {
       this._type = 'expression';
       this._value = {
         type: 'JSExpression',

@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
-import { autorun, reaction, mobx, untracked, globalContext, Editor } from '@alilc/lowcode-editor-core';
+import { reaction, untracked } from 'mobx';
+import { globalContext, Editor } from '@alilc/lowcode-editor-core';
 import { NodeSchema } from '@alilc/lowcode-types';
 
 export interface Serialization<K = NodeSchema, T = string> {

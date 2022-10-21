@@ -1,4 +1,4 @@
-import { obx, computed, makeObservable, runInAction } from '@alilc/lowcode-editor-core';
+import { observable as obx, makeObservable, runInAction, computed } from 'mobx';
 import { GlobalEvent, IEditor, isJSExpression } from '@alilc/lowcode-types';
 import { uniqueId } from '@alilc/lowcode-utils';
 import { SettingEntry } from './setting-entry';

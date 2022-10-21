@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { observer, engineConfig } from '@alilc/lowcode-editor-core';
+import { engineConfig } from '@alilc/lowcode-editor-core';
+import { observer } from 'mobx-react';
 import { Designer } from '../designer';
 import { BuiltinSimulatorHostView } from '../builtin-simulator';
 import './project.less';

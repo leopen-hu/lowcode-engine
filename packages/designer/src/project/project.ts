@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { obx, computed, makeObservable, action } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable, action } from 'mobx';
 import { Designer } from '../designer';
 import { DocumentModel, isDocumentModel, isPageSchema } from '../document';
 import {

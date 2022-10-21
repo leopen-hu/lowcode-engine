@@ -1,4 +1,4 @@
-import { obx, computed, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable } from 'mobx';
 import { uniqueId } from '@alilc/lowcode-utils';
 import { INodeSelector, IViewport } from '../simulator';
 import { isRootNode, Node } from '../document';

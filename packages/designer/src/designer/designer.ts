@@ -1,5 +1,13 @@
 import { ComponentType } from 'react';
-import { obx, computed, autorun, makeObservable, IReactionPublic, IReactionOptions, IReactionDisposer } from '@alilc/lowcode-editor-core';
+import {
+  computed,
+  observable as obx,
+  autorun,
+  makeObservable,
+  IReactionPublic,
+  IReactionOptions,
+  IReactionDisposer,
+} from 'mobx';
 import {
   ProjectSchema,
   ComponentMetadata,

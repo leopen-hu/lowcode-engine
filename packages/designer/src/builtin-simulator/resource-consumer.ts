@@ -1,4 +1,4 @@
-import { autorun, obx } from '@alilc/lowcode-editor-core';
+import { autorun, observable as obx } from 'mobx';
 import { BuiltinSimulatorHost } from './host';
 import { EventEmitter } from 'events';
 import { BuiltinSimulatorRenderer, isSimulatorRenderer } from './renderer';
@@ -46,7 +46,7 @@ export default class ResourceConsumer<T = any> {
       }
       const rendererConsumer = this.consumer!;
 
-      consumer = data => rendererConsumer(consumerOrRenderer, data);
+      consumer = (data) => rendererConsumer(consumerOrRenderer, data);
     } else {
       consumer = consumerOrRenderer;
     }
@@ -82,7 +82,7 @@ export default class ResourceConsumer<T = any> {
     if (this._firstConsumed) {
       return Promise.resolve();
     }
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.resovleFirst = resolve;
     });
   }

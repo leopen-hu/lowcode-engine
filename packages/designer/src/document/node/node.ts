@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { EventEmitter } from 'events';
-import { obx, computed, autorun, makeObservable, runInAction, wrapWithEventSwitch, action } from '@alilc/lowcode-editor-core';
+import { wrapWithEventSwitch } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable, action, autorun, runInAction } from 'mobx';
 import {
   isDOMText,
   isJSExpression,

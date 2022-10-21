@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { observer } from '@alilc/lowcode-editor-core';
+import { observer } from 'mobx-react';
 import { BuiltinSimulatorHost } from '../host';
 import {
   DropLocation,

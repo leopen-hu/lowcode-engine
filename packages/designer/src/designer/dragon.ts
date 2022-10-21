@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { obx, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, makeObservable } from 'mobx';
 import { NodeSchema } from '@alilc/lowcode-types';
 import { setNativeSelection, cursor } from '@alilc/lowcode-utils';
 import { DropLocation } from './location';

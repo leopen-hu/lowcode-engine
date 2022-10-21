@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import classNames from 'classnames';
-import { observer } from '@alilc/lowcode-editor-core';
+import { observer } from 'mobx-react';
 import { DocumentModel } from './document-model';
 import { BuiltinSimulatorHostView } from '../builtin-simulator';
 

@@ -1,4 +1,4 @@
-import { makeObservable, obx } from '@alilc/lowcode-editor-core';
+import { observable as obx, makeObservable } from 'mobx';
 import { EventEmitter } from 'events';
 import { Node, DocumentModel } from '../document';
 

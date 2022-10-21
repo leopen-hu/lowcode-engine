@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { obx, makeObservable } from '@alilc/lowcode-editor-core';
+import { observable as obx, makeObservable } from 'mobx';
 import { Node, comparePosition, PositionNO } from './node/node';
 import { DocumentModel } from './document-model';
 

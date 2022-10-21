@@ -1,4 +1,4 @@
-import { computed, makeObservable, obx, action } from '@alilc/lowcode-editor-core';
+import { observable as obx, computed, makeObservable, action } from 'mobx';
 import { PropsMap, PropsList, CompositeValue } from '@alilc/lowcode-types';
 import { uniqueId, compatStage } from '@alilc/lowcode-utils';
 import { Prop, IPropParent, UNSET } from './prop';

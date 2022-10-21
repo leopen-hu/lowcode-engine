@@ -1,17 +1,14 @@
 import {
-  obx,
+  observable,
   autorun,
   reaction,
   computed,
-  getPublicPath,
-  hotkey,
-  focusTracker,
-  engineConfig,
   IReactionPublic,
   IReactionOptions,
   IReactionDisposer,
   makeObservable,
-} from '@alilc/lowcode-editor-core';
+} from 'mobx';
+import { getPublicPath, hotkey, focusTracker, engineConfig } from '@alilc/lowcode-editor-core';
 import { EventEmitter } from 'events';
 import {
   ISimulatorHost,
@@ -249,7 +246,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     return this.get('deviceStyle');
   }
 
-  @obx.ref _props: BuiltinSimulatorProps = {};
+  @observable.ref _props: BuiltinSimulatorProps = {};
 
   /**
    * @see ISimulator
@@ -280,18 +277,25 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
    */
   connect(
     renderer: BuiltinSimulatorRenderer,
-    effect: (reaction: IReactionPublic) => void, options?: IReactionOptions,
+    effect: (reaction: IReactionPublic) => void,
+    options?: IReactionOptions,
   ) {
     this._renderer = renderer;
     return autorun(effect, options);
   }
 
-  reaction(expression: (reaction: IReactionPublic) => unknown, effect: (value: unknown, prev: unknown, reaction: IReactionPublic) => void,
-    opts?: IReactionOptions | undefined): IReactionDisposer {
+  reaction(
+    expression: (reaction: IReactionPublic) => unknown,
+    effect: (value: unknown, prev: unknown, reaction: IReactionPublic) => void,
+    opts?: IReactionOptions | undefined,
+  ): IReactionDisposer {
     return reaction(expression, effect, opts);
   }
 
-  autorun(effect: (reaction: IReactionPublic) => void, options?: IReactionOptions): IReactionDisposer {
+  autorun(
+    effect: (reaction: IReactionPublic) => void,
+    options?: IReactionOptions,
+  ): IReactionDisposer {
     return autorun(effect, options);
   }
 
@@ -303,13 +307,13 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     this.viewport.mount(viewport);
   }
 
-  @obx.ref private _contentWindow?: Window;
+  @observable.ref private _contentWindow?: Window;
 
   get contentWindow() {
     return this._contentWindow;
   }
 
-  @obx.ref private _contentDocument?: Document;
+  @observable.ref private _contentDocument?: Document;
 
   get contentDocument() {
     return this._contentDocument;
@@ -618,10 +622,14 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
           '.next-calendar-table',
           '.editor-container', // 富文本组件
         ];
-        const ignoreSelectors = customizeIgnoreSelectors?.(defaultIgnoreSelectors, e) || defaultIgnoreSelectors;
+        const ignoreSelectors =
+          customizeIgnoreSelectors?.(defaultIgnoreSelectors, e) || defaultIgnoreSelectors;
         const ignoreSelectorsString = ignoreSelectors.join(',');
         // 提供了 customizeIgnoreSelectors 的情况下，忽略 isFormEvent() 判断
-        if ((!customizeIgnoreSelectors && isFormEvent(e)) || target?.closest(ignoreSelectorsString)) {
+        if (
+          (!customizeIgnoreSelectors && isFormEvent(e)) ||
+          target?.closest(ignoreSelectorsString)
+        ) {
           e.preventDefault();
           e.stopPropagation();
         }
@@ -823,7 +831,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     // return this.renderer?.createComponent(schema) || null;
   }
 
-  @obx private instancesMap: {
+  @observable private instancesMap: {
     [docId: string]: Map<string, ComponentInstance[]>;
   } = {};
   setInstance(docId: string, id: string, instances: ComponentInstance[] | null) {
@@ -1146,7 +1154,8 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     const { nodes } = dragObject as DragNodeObject;
 
     const operationalNodes = nodes?.filter((node) => {
-      const onMoveHook = node.componentMeta?.getMetadata()?.configure.advanced?.callbacks?.onMoveHook;
+      const onMoveHook =
+        node.componentMeta?.getMetadata()?.configure.advanced?.callbacks?.onMoveHook;
       const canMove = onMoveHook && typeof onMoveHook === 'function' ? onMoveHook(node) : true;
 
       return canMove;
@@ -1235,8 +1244,9 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
       const inst = instances
         ? instances.length > 1
           ? instances.find(
-            (_inst) => this.getClosestNodeInstance(_inst, container.id)?.instance === containerInstance,
-          )
+              (_inst) =>
+                this.getClosestNodeInstance(_inst, container.id)?.instance === containerInstance,
+            )
           : instances[0]
         : null;
       const rect = inst
