@@ -8,7 +8,7 @@ import {
   IReactionDisposer,
   makeObservable,
 } from 'mobx';
-import { getPublicPath, hotkey, focusTracker } from '@alilc/lowcode-editor-core';
+import { hotkey, focusTracker } from '@alilc/lowcode-editor-core';
 import { designerConfig } from '../config';
 import { EventEmitter } from 'events';
 import {
@@ -67,6 +67,7 @@ import { LiveEditing } from './live-editing/live-editing';
 import { Project } from '../project';
 import { Scroller } from '../designer/scroller';
 import { isElementNode, isDOMNodeVisible } from '../utils/misc';
+import { getPublicPath } from '../utils';
 
 export interface LibraryItem extends Package {
   package: string;
