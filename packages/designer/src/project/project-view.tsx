@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { engineConfig } from '@alilc/lowcode-editor-core';
+import { designerConfig } from '../config';
 import { observer } from 'mobx-react';
 import { Designer } from '../designer';
 import { BuiltinSimulatorHostView } from '../builtin-simulator';
@@ -9,7 +9,11 @@ class BuiltinLoading extends Component {
   render() {
     return (
       <div id="engine-loading-wrapper">
-        <img width="154" height="100" src="https://img.alicdn.com/tfs/TB1CmVgayERMeJjy0FcXXc7opXa-308-200.gif" />
+        <img
+          width="154"
+          height="100"
+          src="https://img.alicdn.com/tfs/TB1CmVgayERMeJjy0FcXXc7opXa-308-200.gif"
+        />
       </div>
     );
   }
@@ -30,7 +34,7 @@ export class ProjectView extends Component<{ designer: Designer }> {
     const { project } = designer;
     const { simulatorProps } = project;
     const Simulator = designer.simulatorComponent || BuiltinSimulatorHostView;
-    const Loading = engineConfig.get('loadingComponent', BuiltinLoading);
+    const Loading = designerConfig.get('loadingComponent', BuiltinLoading);
 
     return (
       <div className="lc-project">

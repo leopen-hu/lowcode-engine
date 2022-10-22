@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { engineConfig } from '@alilc/lowcode-editor-core';
+import { designerConfig } from '../../config';
 import { BorderDetecting } from './border-detecting';
 import { BorderContainer } from './border-container';
 import { BuiltinSimulatorHost } from '../host';
@@ -24,9 +24,9 @@ export class BemTools extends Component<{ host: BuiltinSimulatorHost }> {
         className="lc-bem-tools"
         style={{ transform: `translate(${-scrollX * scale}px,${-scrollY * scale}px)` }}
       >
-        {!engineConfig.get('disableDetecting') && <BorderDetecting key="hovering" host={host} />}
+        {!designerConfig.get('disableDetecting') && <BorderDetecting key="hovering" host={host} />}
         <BorderSelecting key="selecting" host={host} />
-        {engineConfig.get('enableReactiveContainer') && (
+        {designerConfig.get('enableReactiveContainer') && (
           <BorderContainer key="reactive-container-border" host={host} />
         )}
         <InsertionView key="insertion" host={host} />

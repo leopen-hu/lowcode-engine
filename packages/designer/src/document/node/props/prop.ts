@@ -1,4 +1,4 @@
-import { engineConfig } from '@alilc/lowcode-editor-core';
+import { designerConfig } from '../../../config';
 import * as mobx from 'mobx';
 import { observable as obx, computed, makeObservable, action, untracked, runInAction } from 'mobx';
 import {
@@ -122,7 +122,7 @@ export class Prop implements IPropParent {
     const type = this._type;
     if (stage === TransformStage.Render && this.key === '___condition___') {
       // 在设计器里，所有组件默认需要展示，除非开启了 enableCondition 配置
-      if (engineConfig?.get('enableCondition') !== true) {
+      if (designerConfig?.get('enableCondition') !== true) {
         return true;
       }
       return this._value;

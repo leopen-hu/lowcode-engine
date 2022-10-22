@@ -15,7 +15,7 @@ import {
 } from '@alilc/lowcode-types';
 import { deprecate, isRegExp } from '@alilc/lowcode-utils';
 import { computed } from 'mobx';
-import { engineConfig } from '@alilc/lowcode-editor-core';
+import { designerConfig } from './config';
 import EventEmitter from 'events';
 import { componentDefaults, legacyIssues } from './transducers';
 import { isNode, Node, ParentalNode } from './document';
@@ -302,10 +302,7 @@ export class ComponentMeta {
   checkNestingUp(my: Node | NodeData, parent: ParentalNode) {
     // 检查父子关系，直接约束型，在画布中拖拽直接掠过目标容器
     if (this.parentWhitelist) {
-      return this.parentWhitelist(
-        parent,
-        my,
-      );
+      return this.parentWhitelist(parent, my);
     }
     return true;
   }
@@ -316,10 +313,7 @@ export class ComponentMeta {
       const _target: any = !Array.isArray(target) ? [target] : target;
       return _target.every((item: Node | NodeSchema) => {
         const _item = !isNode(item) ? new Node(my.document, item) : item;
-        return (
-          this.childWhitelist &&
-          this.childWhitelist(_item, my)
-        );
+        return this.childWhitelist && this.childWhitelist(_item, my);
       });
     }
     return true;
@@ -466,7 +460,7 @@ const builtinComponentActions: ComponentAction[] = [
     },
     /* istanbul ignore next */
     condition: (node: Node) => {
-      return engineConfig.get('enableCanvasLock', false) && node.isContainer() && !node.isLocked;
+      return designerConfig.get('enableCanvasLock', false) && node.isContainer() && !node.isLocked;
     },
     important: true,
   },
@@ -482,7 +476,7 @@ const builtinComponentActions: ComponentAction[] = [
     },
     /* istanbul ignore next */
     condition: (node: Node) => {
-      return engineConfig.get('enableCanvasLock', false) && node.isContainer() && node.isLocked;
+      return designerConfig.get('enableCanvasLock', false) && node.isContainer() && node.isLocked;
     },
     important: true,
   },

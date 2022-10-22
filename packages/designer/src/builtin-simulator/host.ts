@@ -8,7 +8,8 @@ import {
   IReactionDisposer,
   makeObservable,
 } from 'mobx';
-import { getPublicPath, hotkey, focusTracker, engineConfig } from '@alilc/lowcode-editor-core';
+import { getPublicPath, hotkey, focusTracker } from '@alilc/lowcode-editor-core';
+import { designerConfig } from '../config';
 import { EventEmitter } from 'events';
 import {
   ISimulatorHost,
@@ -67,7 +68,7 @@ import { Project } from '../project';
 import { Scroller } from '../designer/scroller';
 import { isElementNode, isDOMNodeVisible } from '../utils/misc';
 
-export interface LibraryItem extends Package{
+export interface LibraryItem extends Package {
   package: string;
   library: string;
   urls?: Asset;
@@ -183,11 +184,11 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     this.project = project;
     this.designer = project?.designer;
     this.scroller = this.designer.createScroller(this.viewport);
-    this.autoRender = !engineConfig.get('disableAutoRender', false);
+    this.autoRender = !designerConfig.get('disableAutoRender', false);
     this.componentsConsumer = new ResourceConsumer<Asset | undefined>(() => this.componentsAsset);
     this.injectionConsumer = new ResourceConsumer(() => {
       return {
-        appHelper: engineConfig.get('appHelper'),
+        appHelper: designerConfig.get('appHelper'),
         i18n: this.project.i18n,
       };
     });
@@ -226,7 +227,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
   }
 
   get thisRequiredInJSE(): any {
-    return engineConfig.get('thisRequiredInJSE') ?? true;
+    return designerConfig.get('thisRequiredInJSE') ?? true;
   }
 
   @computed get componentsAsset(): Asset | undefined {
@@ -598,7 +599,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
         this._iframe?.dispatchEvent(x);
         const target = e.target as HTMLElement;
 
-        const customizeIgnoreSelectors = engineConfig.get('customizeIgnoreSelectors');
+        const customizeIgnoreSelectors = designerConfig.get('customizeIgnoreSelectors');
         // TODO: need more elegant solution to ignore click events of components in designer
         const defaultIgnoreSelectors: any = [
           '.next-input-group',
@@ -665,7 +666,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
       } else {
         detecting.capture(null);
       }
-      if (!engineConfig.get('enableMouseEventPropagationInCanvas', false) || dragon.dragging) {
+      if (!designerConfig.get('enableMouseEventPropagationInCanvas', false) || dragon.dragging) {
         e.stopPropagation();
       }
     };
@@ -678,7 +679,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     doc.addEventListener(
       'mousemove',
       (e: Event) => {
-        if (!engineConfig.get('enableMouseEventPropagationInCanvas', false) || dragon.dragging) {
+        if (!designerConfig.get('enableMouseEventPropagationInCanvas', false) || dragon.dragging) {
           e.stopPropagation();
         }
       },
