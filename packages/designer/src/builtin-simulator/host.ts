@@ -8,7 +8,8 @@ import {
   IReactionDisposer,
   makeObservable,
 } from 'mobx';
-import { hotkey, focusTracker } from '@alilc/lowcode-editor-core';
+import { globalContext } from '../ioc-context';
+import { hotkey } from '@alilc/lowcode-editor-core';
 import { designerConfig } from '../config';
 import { EventEmitter } from 'events';
 import {
@@ -441,7 +442,7 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
 
     // bind hotkey & clipboard
     hotkey.mount(this._contentWindow);
-    focusTracker.mount(this._contentWindow);
+    globalContext.get('focusTracker')?.mount(this._contentWindow);
     clipboard.injectCopyPaster(this._contentDocument);
 
     // TODO: dispose the bindings
