@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 import { EventEmitter } from 'events';
-import { wrapWithEventSwitch } from '@alilc/lowcode-editor-core';
 import { observable as obx, computed, makeObservable, action, autorun, runInAction } from 'mobx';
 import {
   isDOMText,
@@ -30,6 +29,7 @@ import { TransformStage } from './transform-stage';
 import { includeSlot, removeSlot } from '../../utils/slot';
 import { foreachReverse } from '../../utils/tree';
 import { NodeRemoveOptions } from '../../types';
+import { wrapWithEventSwitch } from 'designer/src/utils';
 
 /**
  * 基础节点
