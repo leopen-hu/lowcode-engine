@@ -1,6 +1,6 @@
 import '../../fixtures/window';
 import { set } from '../../utils';
-import { Editor, globalContext } from '@alilc/lowcode-editor-core';
+import { Editor } from '@alilc/lowcode-editor-core';
 import { Project } from '../../../src/project/project';
 import { DocumentModel } from '../../../src/document/document-model';
 import { Designer } from '../../../src/designer/designer';
@@ -12,6 +12,7 @@ import otherMeta from '../../fixtures/component-metadata/other';
 import pageMetadata from '../../fixtures/component-metadata/page';
 import { fireEvent, createEvent } from '@testing-library/react';
 import { create } from 'lodash';
+import { globalContext } from '../../../src/ioc-context';
 
 describe('DragResizeEngine 测试', () => {
   let editor: Editor;

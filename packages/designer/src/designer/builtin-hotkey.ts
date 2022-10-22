@@ -1,8 +1,9 @@
-import { hotkey, Editor, globalContext } from '@alilc/lowcode-editor-core';
+import { hotkey, Editor } from '@alilc/lowcode-editor-core';
 import { isFormEvent } from '@alilc/lowcode-utils';
 import { focusing } from './focusing';
 import { insertChildren, TransformStage } from '../document';
 import clipboard from './clipboard';
+import { globalContext } from '../ioc-context';
 
 export function isInLiveEditing() {
   if (globalContext.has(Editor)) {

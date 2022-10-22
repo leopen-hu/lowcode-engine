@@ -1,6 +1,7 @@
 import { Overlay } from '@alifd/next';
 import React from 'react';
-import { Title, globalContext, Editor } from '@alilc/lowcode-editor-core';
+import { Title, Editor } from '@alilc/lowcode-editor-core';
+import { globalContext } from '../../ioc-context';
 import { canClickNode } from '@alilc/lowcode-utils';
 import './index.less';
 

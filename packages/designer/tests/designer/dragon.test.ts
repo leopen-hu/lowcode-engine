@@ -1,6 +1,6 @@
 import '../fixtures/window';
 import { set } from '../utils';
-import { Editor, globalContext } from '@alilc/lowcode-editor-core';
+import { Editor } from '@alilc/lowcode-editor-core';
 import { Project } from '../../src/project/project';
 import { DocumentModel } from '../../src/document/document-model';
 import { Designer } from '../../src/designer/designer';
@@ -18,6 +18,7 @@ import {
 } from '../../src/designer/dragon';
 import formSchema from '../fixtures/schema/form';
 import { fireEvent } from '@testing-library/react';
+import { globalContext } from '../../src/ioc-context';
 
 describe('Dragon 测试', () => {
   let editor: Editor;

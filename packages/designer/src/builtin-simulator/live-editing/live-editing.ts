@@ -1,5 +1,6 @@
 import { observable as obx } from 'mobx';
-import { globalContext, Editor } from '@alilc/lowcode-editor-core';
+import { Editor } from '@alilc/lowcode-editor-core';
+import { globalContext } from '../../ioc-context';
 import { LiveTextEditingConfig } from '@alilc/lowcode-types';
 import { Node, Prop } from '../../document';
 

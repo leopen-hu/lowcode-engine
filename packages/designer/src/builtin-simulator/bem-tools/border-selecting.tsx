@@ -11,7 +11,8 @@ import {
 import classNames from 'classnames';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
-import { Tip, globalContext } from '@alilc/lowcode-editor-core';
+import { Tip } from '@alilc/lowcode-editor-core';
+import { globalContext } from '../../ioc-context';
 import { createIcon, isReactComponent } from '@alilc/lowcode-utils';
 import { ActionContentObject, isActionContentObject } from '@alilc/lowcode-types';
 import { BuiltinSimulatorHost } from '../host';

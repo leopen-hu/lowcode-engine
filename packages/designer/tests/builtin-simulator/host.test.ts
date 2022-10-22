@@ -3,7 +3,7 @@ import React from 'react';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import '../fixtures/window';
-import { Editor, globalContext } from '@alilc/lowcode-editor-core';
+import { Editor } from '@alilc/lowcode-editor-core';
 import {
   AssetLevel,
   Asset,
@@ -30,6 +30,7 @@ import formSchema from '../fixtures/schema/form';
 import { getMockDocument, getMockWindow, getMockEvent, delayObxTick } from '../utils';
 import { BuiltinSimulatorHost } from '../../src/builtin-simulator/host';
 import { fireEvent } from '@testing-library/react';
+import { globalContext } from '../../src/ioc-context';
 
 describe('Host 测试', () => {
   let editor: Editor;

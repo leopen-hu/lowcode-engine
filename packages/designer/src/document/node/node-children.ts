@@ -1,4 +1,4 @@
-import { globalContext } from '@alilc/lowcode-editor-core';
+import { globalContext } from '../../ioc-context';
 import { observable as obx, computed, makeObservable } from 'mobx';
 import { Node, ParentalNode } from './node';
 import { TransformStage } from './transform-stage';

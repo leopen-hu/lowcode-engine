@@ -1,10 +1,11 @@
 import '../fixtures/window';
-import { Editor, globalContext } from '@alilc/lowcode-editor-core';
+import { Editor } from '@alilc/lowcode-editor-core';
 import { Designer } from '../../src/designer/designer';
 import formSchema from '../fixtures/schema/form';
 import '../../src/designer/builtin-hotkey';
 import { fireEvent } from '@testing-library/react';
 import { isInLiveEditing } from '../../src/designer/builtin-hotkey';
+import { globalContext } from '../../src/ioc-context';
 
 const editor = new Editor();
 
@@ -109,12 +110,12 @@ describe('快捷键测试', () => {
     let secondButtonNode = designer.currentDocument?.getNode('node_k1ow3cbp')!;
 
     // 等待第一个 session 结束
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     firstButtonNode.remove();
     expect(secondButtonNode.getParent()?.children.size).toBe(1);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     fireEvent.keyDown(document, { keyCode: 90, metaKey: true });
 
@@ -129,12 +130,12 @@ describe('快捷键测试', () => {
     let secondButtonNode = designer.currentDocument?.getNode('node_k1ow3cbp')!;
 
     // 等待第一个 session 结束
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     firstButtonNode.remove();
     expect(secondButtonNode.getParent()?.children.size).toBe(1);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     fireEvent.keyDown(document, { keyCode: 90, metaKey: true });
 
@@ -142,7 +143,7 @@ describe('快捷键测试', () => {
     secondButtonNode = designer.currentDocument?.getNode('node_k1ow3cbp')!;
     expect(secondButtonNode.getParent()?.children.size).toBe(2);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     fireEvent.keyDown(document, { keyCode: 89, metaKey: true });
 
@@ -166,7 +167,7 @@ describe('快捷键测试', () => {
 
     fireEvent.keyDown(document, { keyCode: 86, metaKey: true });
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // clipboard 异步，先注释
     // expect(secondButtonNode.getParent()?.children.size).toBe(3);
@@ -196,7 +197,6 @@ describe('快捷键测试', () => {
 
     expect(secondButtonNode.prevSibling).toBeNull();
   });
-
 
   describe('非正常分支', () => {
     it('liveEditing mode', () => {
