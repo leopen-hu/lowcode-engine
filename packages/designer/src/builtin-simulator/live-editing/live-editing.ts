@@ -1,5 +1,4 @@
 import { observable as obx } from 'mobx';
-import { Editor } from '@alilc/lowcode-editor-core';
 import { globalContext } from '../../ioc-context';
 import { LiveTextEditingConfig } from '@alilc/lowcode-types';
 import { Node, Prop } from '../../document';
@@ -54,7 +53,7 @@ export class LiveEditing {
     const targetElement = event.target as HTMLElement;
     const { liveTextEditing } = node.componentMeta;
 
-    const editor = globalContext.get(Editor);
+    const editor = globalContext.get('editor');
     const npm = node?.componentMeta?.npm;
     const selected =
       [npm?.package, npm?.componentName].filter((item) => !!item).join('-') ||

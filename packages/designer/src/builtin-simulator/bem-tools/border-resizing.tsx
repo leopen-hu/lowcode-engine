@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import DragResizeEngine from './drag-resize-engine';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
-import { Editor } from '@alilc/lowcode-editor-core';
 import { globalContext } from '../../ioc-context';
 import classNames from 'classnames';
 import { SimulatorContext } from '../context';
@@ -92,7 +91,12 @@ export class BoxResizingForNode extends Component<{ host: BuiltinSimulatorHost; 
             return null;
           }
           return (
-            <BoxResizingInstance key={observed.id} dragging={this.dragging} designer={designer} observed={observed} />
+            <BoxResizingInstance
+              key={observed.id}
+              dragging={this.dragging}
+              designer={designer}
+              observed={observed}
+            />
           );
         })}
       </Fragment>
@@ -175,7 +179,7 @@ export class BoxResizingInstance extends Component<{
         metadata.configure.advanced.callbacks.onResizeEnd(e, cbNode);
       }
 
-      const editor = globalContext.get(Editor);
+      const editor = globalContext.get('editor');
       const npm = node?.componentMeta?.npm;
       const selected =
         [npm?.package, npm?.componentName].filter((item) => !!item).join('-') ||
@@ -258,7 +262,9 @@ export class BoxResizingInstance extends Component<{
       <div>
         {triggerVisible.includes('N') && (
           <div
-            ref={(ref) => { this.outlineN = ref; }}
+            ref={(ref) => {
+              this.outlineN = ref;
+            }}
             className={classNames(baseSideClass, 'n')}
             style={{
               height: 20,
@@ -269,7 +275,9 @@ export class BoxResizingInstance extends Component<{
         )}
         {triggerVisible.includes('NE') && (
           <div
-            ref={(ref) => { this.outlineNE = ref; }}
+            ref={(ref) => {
+              this.outlineNE = ref;
+            }}
             className={classNames(baseCornerClass, 'ne')}
             style={{
               transform: `translate(${offsetLeft + offsetWidth - 5}px, ${offsetTop - 3}px)`,
@@ -280,7 +288,9 @@ export class BoxResizingInstance extends Component<{
         {triggerVisible.includes('E') && (
           <div
             className={classNames(baseSideClass, 'e')}
-            ref={(ref) => { this.outlineE = ref; }}
+            ref={(ref) => {
+              this.outlineE = ref;
+            }}
             style={{
               height: offsetHeight,
               transform: `translate(${offsetLeft + offsetWidth - 10}px, ${offsetTop}px)`,
@@ -290,17 +300,23 @@ export class BoxResizingInstance extends Component<{
         )}
         {triggerVisible.includes('SE') && (
           <div
-            ref={(ref) => { this.outlineSE = ref; }}
+            ref={(ref) => {
+              this.outlineSE = ref;
+            }}
             className={classNames(baseCornerClass, 'se')}
             style={{
-              transform: `translate(${offsetLeft + offsetWidth - 5}px, ${offsetTop + offsetHeight - 5}px)`,
+              transform: `translate(${offsetLeft + offsetWidth - 5}px, ${
+                offsetTop + offsetHeight - 5
+              }px)`,
               cursor: 'nwse-resize',
             }}
           />
         )}
         {triggerVisible.includes('S') && (
           <div
-            ref={(ref) => { this.outlineS = ref; }}
+            ref={(ref) => {
+              this.outlineS = ref;
+            }}
             className={classNames(baseSideClass, 's')}
             style={{
               height: 20,
@@ -311,7 +327,9 @@ export class BoxResizingInstance extends Component<{
         )}
         {triggerVisible.includes('SW') && (
           <div
-            ref={(ref) => { this.outlineSW = ref; }}
+            ref={(ref) => {
+              this.outlineSW = ref;
+            }}
             className={classNames(baseCornerClass, 'sw')}
             style={{
               transform: `translate(${offsetLeft - 3}px, ${offsetTop + offsetHeight - 5}px)`,
@@ -321,7 +339,9 @@ export class BoxResizingInstance extends Component<{
         )}
         {triggerVisible.includes('W') && (
           <div
-            ref={(ref) => { this.outlineW = ref; }}
+            ref={(ref) => {
+              this.outlineW = ref;
+            }}
             className={classNames(baseSideClass, 'w')}
             style={{
               height: offsetHeight,
@@ -332,7 +352,9 @@ export class BoxResizingInstance extends Component<{
         )}
         {triggerVisible.includes('NW') && (
           <div
-            ref={(ref) => { this.outlineNW = ref; }}
+            ref={(ref) => {
+              this.outlineNW = ref;
+            }}
             className={classNames(baseCornerClass, 'nw')}
             style={{
               transform: `translate(${offsetLeft - 3}px, ${offsetTop - 3}px)`,

@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 import { reaction, untracked } from 'mobx';
-import { Editor } from '@alilc/lowcode-editor-core';
 import { NodeSchema } from '@alilc/lowcode-types';
 import { globalContext } from '../ioc-context';
 
@@ -119,7 +118,7 @@ export class History<T = NodeSchema> {
     }
     const cursor = this.session.cursor - 1;
     this.go(cursor);
-    const editor = globalContext.get(Editor);
+    const editor = globalContext.get('editor');
     if (!editor) {
       return;
     }
@@ -132,7 +131,7 @@ export class History<T = NodeSchema> {
     }
     const cursor = this.session.cursor + 1;
     this.go(cursor);
-    const editor = globalContext.get(Editor);
+    const editor = globalContext.get('editor');
     if (!editor) {
       return;
     }

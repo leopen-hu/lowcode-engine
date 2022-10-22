@@ -1,6 +1,6 @@
 import { Overlay } from '@alifd/next';
 import React from 'react';
-import { Title, Editor } from '@alilc/lowcode-editor-core';
+import { Title } from '@alilc/lowcode-editor-core';
 import { globalContext } from '../../ioc-context';
 import { canClickNode } from '@alilc/lowcode-utils';
 import './index.less';
@@ -63,7 +63,7 @@ export default class InstanceNodeSelector extends React.Component<IProps, IState
 
     if (canClick && typeof node.select === 'function') {
       node.select();
-      const editor = globalContext.get(Editor);
+      const editor = globalContext.get('editor');
       const npm = node?.componentMeta?.npm;
       const selected =
         [npm?.package, npm?.componentName].filter((item) => !!item).join('-') ||
@@ -76,17 +76,21 @@ export default class InstanceNodeSelector extends React.Component<IProps, IState
     }
   };
 
-  onMouseOver = (node: Node) => (_: any, flag = true) => {
-    if (node && typeof node.hover === 'function') {
-      node.hover(flag);
-    }
-  };
+  onMouseOver =
+    (node: Node) =>
+    (_: any, flag = true) => {
+      if (node && typeof node.hover === 'function') {
+        node.hover(flag);
+      }
+    };
 
-  onMouseOut = (node: Node) => (_: any, flag = false) => {
-    if (node && typeof node.hover === 'function') {
-      node.hover(flag);
-    }
-  };
+  onMouseOut =
+    (node: Node) =>
+    (_: any, flag = false) => {
+      if (node && typeof node.hover === 'function') {
+        node.hover(flag);
+      }
+    };
 
   renderNodes = (/* node: Node */) => {
     const nodes = this.state.parentNodes;
