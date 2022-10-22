@@ -1,5 +1,4 @@
 import { observable as obx, makeObservable, action } from 'mobx';
-import { runWithGlobalEventOff, wrapWithEventSwitch } from '@alilc/lowcode-editor-core';
 import {
   NodeData,
   isJSExpression,
@@ -26,6 +25,7 @@ import { Selection } from './selection';
 import { History } from './history';
 import { TransformStage, ModalNodesManager } from './node';
 import { uniqueId, isPlainObject, compatStage } from '@alilc/lowcode-utils';
+import { runWithGlobalEventOff, wrapWithEventSwitch } from '../utils';
 
 export type GetDataType<T, NodeType> = T extends undefined
   ? NodeType extends {
