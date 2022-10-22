@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { Title } from '@alilc/lowcode-editor-core';
 import { observable as obx, makeObservable } from 'mobx';
 import { observer } from 'mobx-react';
 
@@ -7,6 +6,7 @@ import { Designer } from '../designer';
 import { DragObject, isDragNodeObject, isDragNodeDataObject } from '../dragon';
 import { isSimulatorHost } from '../../simulator';
 import './ghost.less';
+import { Title } from 'designer/src/widgets';
 
 type offBinding = () => any;
 

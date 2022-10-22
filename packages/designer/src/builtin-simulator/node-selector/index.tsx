@@ -1,11 +1,11 @@
 import { Overlay } from '@alifd/next';
 import React from 'react';
-import { Title } from '@alilc/lowcode-editor-core';
 import { globalContext } from '../../ioc-context';
 import { canClickNode } from '@alilc/lowcode-utils';
 import './index.less';
 
 import { Node, ParentalNode } from '@alilc/lowcode-designer';
+import { Title } from 'designer/src/widgets';
 
 const { Popup } = Overlay;
 

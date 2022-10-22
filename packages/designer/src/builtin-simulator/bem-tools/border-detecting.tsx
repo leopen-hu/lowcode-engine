@@ -2,11 +2,11 @@ import { Component, Fragment, PureComponent } from 'react';
 import classNames from 'classnames';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
-import { Title } from '@alilc/lowcode-editor-core';
 import { TitleContent } from '@alilc/lowcode-types';
 import { getClosestNode } from '@alilc/lowcode-utils';
 
 import { BuiltinSimulatorHost } from '../host';
+import { Title } from 'designer/src/widgets';
 
 
 export class BorderDetectingInstance extends PureComponent<{

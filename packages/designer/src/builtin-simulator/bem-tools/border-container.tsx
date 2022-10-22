@@ -3,11 +3,12 @@ import { Component, Fragment, ReactElement, PureComponent } from 'react';
 import classNames from 'classnames';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
-import { Title, globalLocale } from '@alilc/lowcode-editor-core';
+import { globalLocale } from '@alilc/lowcode-editor-core';
 import { I18nData, isI18nData, TitleContent } from '@alilc/lowcode-types';
 import { DropLocation } from '../../designer';
 import { BuiltinSimulatorHost } from '../../builtin-simulator/host';
 import { ParentalNode } from '../../document/node';
+import { Title } from 'designer/src/widgets';
 
 export class BorderContainerInstance extends PureComponent<{
   title: TitleContent;
