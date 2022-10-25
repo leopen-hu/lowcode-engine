@@ -33,6 +33,7 @@ import { OffsetObserver, createOffsetObserver } from './offset-observer';
 import { focusing } from './focusing';
 import { SettingTopEntry } from './setting';
 import { BemToolsManager } from '../builtin-simulator/bem-tools/manager';
+import { bindBuiltinHotkeys } from './builtin-hotkey';
 
 export interface DesignerProps {
   editor: IEditor;
@@ -209,6 +210,7 @@ export class Designer {
     this.postEvent('init', this);
     this.setupSelection();
     setupHistory();
+    bindBuiltinHotkeys();
 
     // TODO: 先简单实现，后期通过焦点赋值
     focusing.focusDesigner = this;
@@ -332,7 +334,7 @@ export class Designer {
     }
     const focusNode = activeDoc.focusNode!;
     const nodes = activeDoc.selection.getNodes();
-    const refNode = nodes.find(item => focusNode.contains(item));
+    const refNode = nodes.find((item) => focusNode.contains(item));
     let target;
     let index: number | undefined;
     if (!refNode || refNode === focusNode) {
@@ -577,7 +579,10 @@ export class Designer {
     }
   }
 
-  autorun(effect: (reaction: IReactionPublic) => void, options?: IReactionOptions): IReactionDisposer {
+  autorun(
+    effect: (reaction: IReactionPublic) => void,
+    options?: IReactionOptions,
+  ): IReactionDisposer {
     return autorun(effect, options);
   }
 

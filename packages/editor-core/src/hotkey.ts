@@ -645,5 +645,8 @@ export class Hotkey {
   }
 }
 
-export const hotkey = new Hotkey();
+const hotkey = new Hotkey();
 hotkey.mount(window);
+globalContext.register(hotkey, 'hotkey');
+
+export { hotkey };

@@ -9,7 +9,6 @@ import {
   makeObservable,
 } from 'mobx';
 import { globalContext } from '../ioc-context';
-import { hotkey } from '@alilc/lowcode-editor-core';
 import { designerConfig } from '../config';
 import { EventEmitter } from 'events';
 import {
@@ -441,8 +440,12 @@ export class BuiltinSimulatorHost implements ISimulatorHost<BuiltinSimulatorProp
     this.setupEvents();
 
     // bind hotkey & clipboard
-    hotkey.mount(this._contentWindow);
-    globalContext.get('focusTracker')?.mount(this._contentWindow);
+    try {
+      globalContext.get('hotkey')?.mount(this._contentWindow);
+      globalContext.get('focusTracker')?.mount(this._contentWindow);
+    } catch (e) {
+      console.log(e);
+    }
     clipboard.injectCopyPaster(this._contentDocument);
 
     // TODO: dispose the bindings
